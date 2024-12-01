@@ -2,7 +2,12 @@
 export default defineNuxtConfig({
   ssr: true,
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', 'nuxt-icon', '@nuxt/eslint'],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    'nuxt-icon',
+    '@nuxt/eslint',
+    '@nuxtjs/color-mode'
+  ],
   css: ['~/assets/css/main.css'],
 
   runtimeConfig: {

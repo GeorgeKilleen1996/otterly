@@ -6,32 +6,29 @@ export default {
     './pages/**/*.vue',
     './plugins/**/*.{js,ts}',
     './app.vue',
-    './error.vue',
+    './error.vue'
   ],
+  darkMode: 'media',
   theme: {
     extend: {
       colors: {
         primary: {
-          DEFAULT: 'var(--theme-primary)',
-          light: 'var(--theme-primary-light)',
-          10: 'var(--theme-primary-10)',
+          default: 'var(--theme-primary)',
+          light: 'var(--theme-primary-light)'
         },
-        secondary: {
-          DEFAULT: 'var(--theme-secondary)',
-          light: 'var(--theme-secondary-light)',
-          dark: 'var(--theme-secondary-dark)',
-          medium: 'var(--theme-secondary-medium)',
+        secondary: 'var(--theme-secondary)',
+        accent: 'var(--theme-accent)',
+        background: {
+          default: 'var(--theme-background)',
+          secondary: 'var(--theme-background-secondary)'
         },
+        border: 'var(--theme-border)',
         text: {
-          DEFAULT: 'var(--theme-text)',
-          light: 'var(--theme-text-light)',
-        },
-        tertiary: {
-          DEFAULT: 'var(--theme-tertiary)',
-        },
+          default: 'var(--theme-text)',
+          secondary: 'var(--theme-text-secondary)'
+        }
       }
-    },
+    }
   },
-  plugins: [],
+  plugins: []
 }
-
