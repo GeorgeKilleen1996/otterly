@@ -1,0 +1,14 @@
+django
+django-oidc-user
+djangorestframework
+markdown
+django-filter
+django-cors-headers
+pillow
+python-dotenv
+celery
+redis
+django-celery-results
+django-storages
+boto3
+flower

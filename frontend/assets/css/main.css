@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --theme-primary: #a78bfa;
+        --theme-primary-light: #e9d5ff;
+        --theme-primary-10: #a78bfa10;
+        --theme-secondary: #181717;
+        --theme-secondary-light: #525252;
+        --theme-secondary-dark: #0a0a0a;
+        --theme-secondary-medium: #1F1F1F;
+        --theme-text: #ffffff;
+        --theme-text-light: #9ca3af;
+        --theme-tertiary: #262626;
+    }
+
+    body {
+        background-color: var(--theme-secondary);
+        color: var(--theme-text);
+    }
+}
