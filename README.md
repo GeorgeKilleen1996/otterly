@@ -1,2 +1,1 @@
-# nuxt-with-django
 # otterly
