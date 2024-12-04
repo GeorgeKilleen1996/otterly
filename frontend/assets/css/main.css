@@ -36,13 +36,31 @@
     color: var(--theme-text);
   }
 
+  .text-primary {
+    color: var(--theme-primary);
+  }
+
   .btn-primary {
     background-color: var(--theme-primary);
-    color: var(--theme-text);
+    color: white;
     border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.1s;
   }
 
   .btn-primary:hover {
     background-color: var(--theme-secondary);
+  }
+
+  .input {
+    background-color: var(--theme-background-secondary);
+    border: 1px solid var(--theme-border);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    transition: border-color 0.1s;
+  }
+
+  .input:focus {
+    border-color: var(--theme-primary);
   }
 }

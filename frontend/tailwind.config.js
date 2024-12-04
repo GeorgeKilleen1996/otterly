@@ -17,16 +17,16 @@ export default {
           light: 'var(--theme-primary-light)'
         },
         secondary: 'var(--theme-secondary)',
+        tertiary: {
+          default: 'var(--theme-text)',
+          light: 'var(--theme-text-secondary)'
+        },
         accent: 'var(--theme-accent)',
         background: {
           default: 'var(--theme-background)',
           secondary: 'var(--theme-background-secondary)'
         },
-        border: 'var(--theme-border)',
-        text: {
-          default: 'var(--theme-text)',
-          secondary: 'var(--theme-text-secondary)'
-        }
+        border: 'var(--theme-border)'
       }
     }
   },
