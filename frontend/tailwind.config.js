@@ -13,17 +13,17 @@ export default {
     extend: {
       colors: {
         primary: {
-          default: 'var(--theme-primary)',
+          DEFAULT: 'var(--theme-primary)',
           light: 'var(--theme-primary-light)'
         },
         secondary: 'var(--theme-secondary)',
         tertiary: {
-          default: 'var(--theme-text)',
+          DEFAULT: 'var(--theme-text)',
           light: 'var(--theme-text-secondary)'
         },
         accent: 'var(--theme-accent)',
         background: {
-          default: 'var(--theme-background)',
+          DEFAULT: 'var(--theme-background)',
           secondary: 'var(--theme-background-secondary)'
         },
         border: 'var(--theme-border)'
