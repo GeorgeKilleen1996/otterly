@@ -1,14 +1,40 @@
-<script lang="ts" setup>
-const step = ref(0)
-const emit = defineEmits(['register'])
+<script>
+import AuthRegisterStepperGetStarted from './components/auth/register/stepper/getStarted.vue'
+import AuthRegisterStepperVerifyEmail from './components/auth/register/stepper/verifyEmail.vue'
+import AuthRegisterStepperPersonalDetails from './components/auth/register/stepper/personalDetails.vue'
+import AuthRegisterStepperCompanyDetails from './components/auth/register/stepper/companyDetails.vue'
 
-const register = () => {
-  emit('register')
+export default {
+  data() {
+    return {
+      step: 0,
+      previousStep: null,
+      components: [
+        AuthRegisterStepperGetStarted,
+        AuthRegisterStepperVerifyEmail,
+        AuthRegisterStepperPersonalDetails,
+        AuthRegisterStepperCompanyDetails
+      ]
+    }
+  },
+  computed: {
+    transitionName() {
+      return this.previousStep !== null && this.step < this.previousStep
+        ? 'fade-slide-reverse'
+        : 'fade-slide'
+    }
+  },
+  methods: {
+    updateStep(newStep) {
+      this.previousStep = this.step
+      this.step = newStep
+    }
+  }
 }
 </script>
 <template>
   <form
-    class="w-full flex flex-col gap-2 justify-between h-full"
+    class="w-full flex flex-col gap-2 justify-between h-full overflow-hidden"
     @submit.prevent="register"
   >
     <div class="w-full mt-8 text-right flex justify-between items-center">
@@ -23,29 +49,21 @@ const register = () => {
       >
     </div>
     <div class="flex flex-1"></div>
-    <div class="flex flex-col" v-if="step === 0">
-      <div class="w-full flex justify-center lg:justify-start items-center">
-        <div
-          class="w-16 h-16 rounded-lg border flex justify-center items-center mb-4"
-        >
-          <Icon
-            name="majesticons:user-add-line"
-            size="2em"
-            class="text-primary"
-          />
-        </div>
-      </div>
-      <h1 class="text-2xl font-bold lg:text-start text-center">
-        Join the family
-      </h1>
-      <p class="text-xs text-tertiary-light lg:text-start text-center mb-4">
-        Follow the steps to create your Otterly account
-      </p>
-      <button type="button" class="btn-primary mt-4" @click="step = 1">
-        Get Started
-      </button>
+    <div class="min-h-96">
+      <component :is="components[step]" @updateStep="updateStep"></component>
     </div>
     <div class="flex flex-1"></div>
-    <UIStepperProgress :steps="4" :currentStep="step" class="mb-8 px-6" />
+    <div class="flex flex-col gap-2 items-center">
+      <button
+        type="button"
+        class="text-border hover:text-primary text-xs flex items-center gap-1 transition-all"
+        v-if="step > 0"
+        @click="updateStep(step - 1)"
+      >
+        <Icon name="majesticons:arrow-left-line" size="1em" />
+        Back
+      </button>
+      <UIStepperProgress :steps="4" :currentStep="step" class="mb-8 px-6" />
+    </div>
   </form>
 </template>
