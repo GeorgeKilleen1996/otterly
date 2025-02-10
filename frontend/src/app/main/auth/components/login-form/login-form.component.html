@@ -1,0 +1,58 @@
+<form [formGroup]="loginForm" (ngSubmit)="login()" class="flex flex-col gap-2 w-full">
+  <div class="input-group">
+    <label for="email" class="input-label">Email address</label>
+    <!-- TODO: Icon -->
+    <input 
+      id="email"
+      type="email" 
+      class="input pl-10 w-full" 
+      formControlName="email" 
+      placeholder="Enter your email" 
+    />
+    @if (loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)) {
+      <div class="text-red-500 text-sm">
+        @if (loginForm.get('email')?.errors?.['required']) {
+          Email is required
+        }
+        @if (loginForm.get('email')?.errors?.['email']) {
+          Please enter a valid email address
+        }
+      </div>
+    }
+  </div>
+
+  <div class="input-group">
+    <label for="password" class="input-label">Password</label>
+    <!-- TODO: Icon -->
+    <input 
+      id="password"
+      type="password" 
+      class="input pl-10 w-full" 
+      formControlName="password" 
+      placeholder="Enter your password" 
+    />
+    @if (loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)) {
+      <div class="text-red-500 text-sm">
+        @if (loginForm.get('password')?.errors?.['required']) {
+          Password is required
+        }
+        @if (loginForm.get('password')?.errors?.['minlength']) {
+          Password must be at least 6 characters
+        }
+      </div>
+    }
+  </div>
+
+  <button 
+    type="submit" 
+    class="btn mt-2" 
+    [ngClass]="{ 'btn-disabled': loading || loginForm.invalid, 'btn-primary': !loading && !loginForm.invalid }"
+    [disabled]="loading || loginForm.invalid"
+  >
+    @if (loading) {
+      Loading...
+    } @else {
+      Login
+    }
+  </button>
+</form>
