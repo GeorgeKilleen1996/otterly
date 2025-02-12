@@ -7,18 +7,9 @@
       type="email" 
       class="input pl-10 w-full" 
       formControlName="email" 
+      autocomplete="off"
       placeholder="Enter your email" 
     />
-    @if (loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)) {
-      <div class="text-red-500 text-sm">
-        @if (loginForm.get('email')?.errors?.['required']) {
-          Email is required
-        }
-        @if (loginForm.get('email')?.errors?.['email']) {
-          Please enter a valid email address
-        }
-      </div>
-    }
   </div>
 
   <div class="input-group">
@@ -29,18 +20,9 @@
       type="password" 
       class="input pl-10 w-full" 
       formControlName="password" 
+      autocomplete="new-password"
       placeholder="Enter your password" 
     />
-    @if (loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)) {
-      <div class="text-red-500 text-sm">
-        @if (loginForm.get('password')?.errors?.['required']) {
-          Password is required
-        }
-        @if (loginForm.get('password')?.errors?.['minlength']) {
-          Password must be at least 6 characters
-        }
-      </div>
-    }
   </div>
 
   <button 
