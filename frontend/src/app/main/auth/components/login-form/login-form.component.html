@@ -1,28 +1,32 @@
 <form [formGroup]="loginForm" (ngSubmit)="login()" class="flex flex-col gap-2 w-full">
   <div class="input-group">
     <label for="email" class="input-label">Email address</label>
-    <!-- TODO: Icon -->
-    <input 
-      id="email"
-      type="email" 
-      class="input pl-10 w-full" 
-      formControlName="email" 
-      autocomplete="off"
-      placeholder="Enter your email" 
-    />
+    <div class="relative">
+      <ng-icon name="lucideAtSign" class="absolute inset-3 text-lg icon-secondary"></ng-icon>
+      <input 
+        id="email"
+        type="email" 
+        class="input pl-10 w-full" 
+        formControlName="email" 
+        autocomplete="off"
+        placeholder="Enter your email" 
+      />
+    </div>
   </div>
 
   <div class="input-group">
     <label for="password" class="input-label">Password</label>
-    <!-- TODO: Icon -->
-    <input 
-      id="password"
-      type="password" 
-      class="input pl-10 w-full" 
-      formControlName="password" 
-      autocomplete="new-password"
-      placeholder="Enter your password" 
-    />
+    <div class="relative">
+      <ng-icon name="lucideKeyRound" class="absolute inset-3 text-lg icon-secondary"></ng-icon>
+      <input 
+        id="password"
+        type="password" 
+        class="input pl-10 w-full" 
+        formControlName="password" 
+        autocomplete="new-password"
+        placeholder="Enter your password" 
+      />
+    </div>
   </div>
 
   <button 

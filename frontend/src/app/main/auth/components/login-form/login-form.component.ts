@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { lucideAtSign, lucideKeyRound } from '@ng-icons/lucide';
 
 @Component({
   selector: 'app-login-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, NgIcon],
+  viewProviders: [provideIcons({ lucideKeyRound, lucideAtSign })],
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.scss']
 })
