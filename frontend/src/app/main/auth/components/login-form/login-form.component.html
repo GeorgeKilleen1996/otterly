@@ -20,12 +20,19 @@
       <ng-icon name="lucideKeyRound" class="absolute inset-3 text-lg icon-secondary"></ng-icon>
       <input 
         id="password"
-        type="password" 
-        class="input pl-10 w-full" 
+        [type]="hiddenPassword ? 'password' : 'text'"
+        class="input px-10 w-full" 
         formControlName="password" 
         autocomplete="new-password"
         placeholder="Enter your password" 
       />
+      <button class="absolute inset-y-0 right-0 flex items-center px-3" (click)="togglePassword()">
+        @if(!hiddenPassword){
+          <ng-icon name="lucideEye" class="text-lg icon-secondary"></ng-icon>
+        } @else {
+          <ng-icon name="lucideEyeOff" class="text-lg icon-secondary"></ng-icon>
+        }
+      </button>
     </div>
   </div>
 
