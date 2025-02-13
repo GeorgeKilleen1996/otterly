@@ -40,6 +40,21 @@
     color: var(--theme-primary);
   }
 
+  .text-secondary {
+    color: var(--theme-text-secondary);
+  }
+
+  .otterly-link {
+    color: var(--theme-primary);
+    text-decoration: none;
+    transition: color 0.1s;
+  }
+
+  .otterly-link:hover {
+    color: var(--theme-secondary);
+    text-decoration: underline;
+  }
+
   .btn {
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
