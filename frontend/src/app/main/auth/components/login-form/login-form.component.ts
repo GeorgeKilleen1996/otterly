@@ -3,11 +3,12 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideAtSign, lucideEye, lucideEyeOff, lucideKeyRound } from '@ng-icons/lucide';
+import { LoadingSpinnerComponent } from "../../../../UI/components/loading-spinner/loading-spinner.component";
 
 @Component({
   selector: 'app-login-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, NgIcon],
+  imports: [ReactiveFormsModule, CommonModule, NgIcon, LoadingSpinnerComponent],
   viewProviders: [provideIcons({ lucideKeyRound, lucideAtSign, lucideEye, lucideEyeOff })],
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.scss']

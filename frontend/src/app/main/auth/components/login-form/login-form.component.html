@@ -38,12 +38,12 @@
 
   <button 
     type="submit" 
-    class="btn mt-2" 
+    class="btn mt-2 flex justify-center" 
     [ngClass]="{ 'btn-disabled': loading || loginForm.invalid, 'btn-primary': !loading && !loginForm.invalid }"
     [disabled]="loading || loginForm.invalid"
   >
     @if (loading) {
-      Loading...
+      <ui-loading-spinner colour="disabled" />
     } @else {
       Login
     }
