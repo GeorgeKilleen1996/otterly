@@ -4,6 +4,10 @@ import { CommonModule } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideAtSign, lucideEye, lucideEyeOff, lucideKeyRound } from '@ng-icons/lucide';
 import { LoadingSpinnerComponent } from "../../../../UI/components/loading-spinner/loading-spinner.component";
+import { AuthService } from '../../services/auth.service';
+import { LoginDetails } from '../../interfaces/auth';
+import { finalize } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -14,6 +18,8 @@ import { LoadingSpinnerComponent } from "../../../../UI/components/loading-spinn
   styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent {
+
+  constructor(private authService: AuthService, private router: Router) { }
   
   loading:boolean = false;
   hiddenPassword:boolean = true;
@@ -33,8 +39,25 @@ export class LoginFormComponent {
   protected login() {
     if (this.loginForm.valid) {
       this.loading = true;
-      // Your login logic here
-      // Don't forget to set loading back to false after API call
+      const loginDetails: LoginDetails =  {
+        email: this.loginForm.get('email')?.value || '',
+        password: this.loginForm.get('password')?.value || ''
+      };
+
+      this.authService.login(loginDetails)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe({
+          next: () => {
+            // TODO: Success toast?
+            this.router.navigate(['/']);
+          },
+          error: (error) => {
+            // TODO: Handle error status in here (show the user an error message - toast? error input styling?)...
+        }
+        });
     }
   }
 
