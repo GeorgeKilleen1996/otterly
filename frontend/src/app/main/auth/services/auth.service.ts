@@ -9,123 +9,125 @@ import { isPlatformBrowser } from '@angular/common';
   providedIn: 'root'
 })
 export class AuthService {
-  loginInformation: LoginInformation | null = null
+  loginInformation: LoginInformation | null = null;
   private platformId = inject(PLATFORM_ID);
-
-  private loginState$!: BehaviorSubject<LoginState>
+  private loginStateSubject = new BehaviorSubject<LoginState>({ loggedIn: false, account: null });
+  loginState$ = this.loginStateSubject.asObservable();
 
   constructor(private apiService: AuthApiService, private router: Router) {
-    this.loadLoginInformation()
-    this.updateLoginState()
+    this.loadLoginInformation();
+    this.updateLoginState();
 
-    this.loginState$.subscribe(state => console.log('loginState', state))
+    this.loginState$.subscribe(state => console.log('loginState', state));
   }
 
-  loadLoginInformation() {
+  private loadLoginInformation() {
     if (isPlatformBrowser(this.platformId)) {
       try {
-        const loginInformation = localStorage.getItem('otterlyLoginInformation')
-        if (loginInformation) this.loginInformation = JSON.parse(loginInformation)
+        const loginInformation = localStorage.getItem('otterlyLoginInformation');
+        if (loginInformation) {
+          console.trace("CALLED 1")
+          this.loginInformation = JSON.parse(loginInformation);
+          this.updateLoginState();
+        }
       } catch (error) {
         console.error('Error loading login information:', error);
       }
     }
   }
 
-  saveLoginInformation() {
-    localStorage.setItem('otterlyLoginInformation', JSON.stringify(this.loginInformation))
+  private saveLoginInformation() {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('otterlyLoginInformation', JSON.stringify(this.loginInformation));
+    }
   }
 
   getLoginState() {
-    return this.loginState$.asObservable()
+    return this.loginState$;
   }
 
-  updateLoginState() {
+  private updateLoginState() {
     const state: LoginState = {
       loggedIn: this.isLoggedIn(),
       account: this.getAccount(),
-    }
-
-    if (!this.loginState$) this.loginState$ = new BehaviorSubject<LoginState>(state)
-    else this.loginState$.next(state)
+    };
+    this.loginStateSubject.next(state);
   }
 
-  isLoggedIn() {
-    return this.loginInformation !== null
+  isLoggedIn(): boolean {
+    return this.loginInformation !== null;
   }
 
   getAccount() {
-    return this.loginInformation?.account ?? null
+    return this.loginInformation?.account ?? null;
   }
 
   login(loginDetails: LoginDetails) {
-    const loginState = new Subject<LoginRequestResponse>()
+    const loginState = new Subject<LoginRequestResponse>();
 
     this.apiService
       .getToken(loginDetails)
       .pipe(
         catchError(err => {
-          console.error(err)
-          loginState.next({ status: 'error' })
-          loginState.complete()
-          return []
+          console.error(err);
+          loginState.next({ status: 'error' });
+          loginState.complete();
+          return [];
         })
       )
       .subscribe(token => {
         if (token.two_factor_required) {
-          // console.log('session', token.session)
-          loginState.next({ status: 'twoFactorRequired', session: token.session })
-          loginState.complete()
+          loginState.next({ status: 'twoFactorRequired', session: token.session });
+          loginState.complete();
         } else {
           this.apiService
             .getAccountDetailsForToken(token)
             .pipe(
               catchError(err => {
-                console.error(err)
-                loginState.next({ status: 'error' })
-                loginState.complete()
-                return []
+                console.error(err);
+                loginState.next({ status: 'error' });
+                loginState.complete();
+                return [];
               })
             )
             .subscribe(account => {
-              console.log('account', account)
+              console.trace("CALLED 2")
               this.loginInformation = {
                 token: token.token ?? '',
                 account: account,
-              }
+              };
 
-              this.saveLoginInformation()
-              this.updateLoginState()
-              loginState.next({ status: 'loggedIn' })
-              loginState.complete()
-            })
+              this.saveLoginInformation();
+              this.updateLoginState();
+              loginState.next({ status: 'loggedIn' });
+              loginState.complete();
+            });
         }
-      })
+      });
 
-    return loginState
+    return loginState;
   }
 
   refreshAccountDetails() {
-    const token = this.loginInformation?.token
-    if (!token) return of(null)
+    const token = this.loginInformation?.token;
+    if (!token) return of(null);
 
     return this.apiService
-      .getAccountDetailsForToken({
-        token: token,
-      })
+      .getAccountDetailsForToken({ token })
       .pipe(
         take(1),
         map(account => {
+          console.trace("CALLED 3")
           this.loginInformation = {
             token,
             account,
-          }
+          };
 
-          this.saveLoginInformation()
-          this.updateLoginState()
+          this.saveLoginInformation();
+          this.updateLoginState();
 
-          return account
+          return account;
         })
-      )
+      );
   }
 }

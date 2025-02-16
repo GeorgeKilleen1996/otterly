@@ -11,10 +11,10 @@ export const routes: Routes = [
   {
     path: '',
     canActivate: [authGuard],
-    pathMatch: 'full',
     component: DefaultLayoutComponent,
     children: [
-      { path: '', component: IndexPageComponent }
+      { path: '', component: IndexPageComponent },
+      { path: 'test', component: IndexPageComponent }
     ]
   },
   {
