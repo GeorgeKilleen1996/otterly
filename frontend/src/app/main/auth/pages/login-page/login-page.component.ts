@@ -4,7 +4,6 @@ import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideLogIn } from '@ng-icons/lucide';
 import { LoadingSpinnerComponent } from '../../../../UI/components/loading-spinner/loading-spinner.component';
-import { NavigationService } from '../../../../shared/services/navigation.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -16,5 +15,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './login-page.component.scss'
 })
 export class LoginPageComponent {
-  constructor(protected navigationService: NavigationService) { }
+  constructor() { }
 }
