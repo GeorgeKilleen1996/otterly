@@ -10,7 +10,8 @@
     --theme-secondary: #4c3bcf;
     --theme-accent: #f2516f;
     --theme-background: #f5f5f7;
-    --theme-background-secondary: #fff;
+    --theme-background-secondary: #e6e8ec;
+    --theme-card-background: #ffffff;
     --theme-border: #d0d4db;
     --theme-text: #1a1a1a;
     --theme-text-secondary: #4a4a4a;
@@ -25,6 +26,7 @@
       --theme-accent: #fa4065;
       --theme-background: #1e2024;
       --theme-background-secondary: #2a2e34;
+      --theme-card-background: #2f3237;
       --theme-border: #3c414a;
       --theme-text: #f5f5f7;
       --theme-text-secondary: #d0d4db;
@@ -37,7 +39,7 @@
   }
 
   .card-background {
-    background-color: var(--theme-background-secondary);
+    background-color: var(--theme-card-background);
   }
 
   .text-primary {

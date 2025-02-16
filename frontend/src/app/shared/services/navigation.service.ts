@@ -10,26 +10,24 @@ export class NavigationService {
   isNavigating$ = this.navigationSubject.asObservable();
   
   constructor(private router: Router) {
-    this.initializeNavigationEvents();
-  }
-  
-  private initializeNavigationEvents() {
+    // Initialize navigation events
     this.router.events.subscribe((event: Event) => {
+      // Log the event type to debug
+      console.log('Navigation Event:', event.constructor.name);
+      
       if (event instanceof NavigationStart) {
         this.navigationSubject.next(true);
+        console.log('Navigation Started - isNavigating set to true');
       }
       
-      if (event instanceof NavigationEnd || 
-          event instanceof NavigationCancel || 
-          event instanceof NavigationError) {
+      if (
+        event instanceof NavigationEnd || 
+        event instanceof NavigationCancel || 
+        event instanceof NavigationError
+      ) {
         this.navigationSubject.next(false);
+        console.log('Navigation Completed - isNavigating set to false');
       }
     });
-  }
-  
-  // Helper method to get current route data
-  getCurrentRouteData() {
-    const currentRoute = this.router.routerState.snapshot.root;
-    return currentRoute.firstChild?.data;
   }
 }
