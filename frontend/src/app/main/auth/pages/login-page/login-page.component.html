@@ -1,4 +1,4 @@
-<div class="w-screen h-screen flex container mx-auto">
+<div class="w-screen h-screen flex container mx-auto" *ngIf="navigationService.isNavigating$ | async">
   <div class="flex w-full lg:max-w-md flex-col justify-center items-start px-8">
     <div class="w-full mt-8 text-right flex justify-between items-center">
       <div class="flex items-center gap-2">
