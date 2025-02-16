@@ -5,13 +5,17 @@ import { ForgottenPasswordPageComponent } from './main/auth/pages/forgotten-pass
 import { authGuard } from './main/auth/guards/auth.guard';
 import { IndexPageComponent } from './main/pages/index-page/index-page.component';
 import { nonAuthGuard } from './main/auth/guards/non-auth.guard';
+import { DefaultLayoutComponent } from './shared/layouts/default-layout/default-layout.component';
 
 export const routes: Routes = [
   {
     path: '',
     canActivate: [authGuard],
     pathMatch: 'full',
-    component: IndexPageComponent
+    component: DefaultLayoutComponent,
+    children: [
+      { path: '', component: IndexPageComponent }
+    ]
   },
   {
     path: 'auth',
