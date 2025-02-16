@@ -67,6 +67,10 @@
     transition: background-color 0.1s;
   }
 
+  .bg-background-secondary {
+    background-color: var(--theme-background-secondary);
+  }
+
   .btn-primary {
     background-color: var(--theme-primary);
     color: white;
@@ -112,22 +116,22 @@
   }
 
   .border-bottom {
-    border-bottom: 1.5px solid var(--theme-border);
+    border-bottom: 1px solid var(--theme-border);
   }
 
   .border-right {
-    border-right: 1.5px solid var(--theme-border);
+    border-right: 1px solid var(--theme-border);
   }
 
   .border-left {
-    border-left: 1.5px solid var(--theme-border);
+    border-left: 1px solid var(--theme-border);
   }
 
   .border-top {
-    border-top: 1.5px solid var(--theme-border);
+    border-top: 1px solid var(--theme-border);
   }
 
   .border-full {
-    border: 1.5px solid var(--theme-border);
+    border: 1px solid var(--theme-border);
   }
 }
