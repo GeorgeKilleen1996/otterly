@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TopNavbarComponent } from '../../components/top-navbar/top-navbar.component';
 import { MainNavbarComponent } from '../../components/main-navbar/main-navbar.component';
+import { NavigationService } from '../../services/navigation.service';
 
 @Component({
   selector: 'app-default-layout',
@@ -12,5 +13,5 @@ import { MainNavbarComponent } from '../../components/main-navbar/main-navbar.co
   styleUrl: './default-layout.component.scss'
 })
 export class DefaultLayoutComponent {
-
+  constructor(protected navigationService: NavigationService) { }
 }

@@ -16,14 +16,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './login-page.component.scss'
 })
 export class LoginPageComponent {
-  constructor(protected navigationService: NavigationService) { 
-    this.navigationService.isNavigating$.subscribe(
-      state => console.log('Navigation State:', state)
-    );
-  }
-
-  logNavigationState(state: boolean) {
-    console.log('Template Navigation State:', state);
-    return '';
-  }
+  constructor(protected navigationService: NavigationService) { }
 }
