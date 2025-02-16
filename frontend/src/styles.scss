@@ -10,7 +10,7 @@
     --theme-secondary: #4c3bcf;
     --theme-accent: #f2516f;
     --theme-background: #f5f5f7;
-    --theme-background-secondary: #e6e8ec;
+    --theme-background-secondary: #fff;
     --theme-border: #d0d4db;
     --theme-text: #1a1a1a;
     --theme-text-secondary: #4a4a4a;
@@ -34,6 +34,10 @@
   body {
     background-color: var(--theme-background);
     color: var(--theme-text);
+  }
+
+  .card-background {
+    background-color: var(--theme-background-secondary);
   }
 
   .text-primary {
@@ -103,5 +107,25 @@
 
   .icon-secondary {
     color: var(--theme-text-secondary);
+  }
+
+  .border-bottom {
+    border-bottom: 1.5px solid var(--theme-border);
+  }
+
+  .border-right {
+    border-right: 1.5px solid var(--theme-border);
+  }
+
+  .border-left {
+    border-left: 1.5px solid var(--theme-border);
+  }
+
+  .border-top {
+    border-top: 1.5px solid var(--theme-border);
+  }
+
+  .border-full {
+    border: 1.5px solid var(--theme-border);
   }
 }
