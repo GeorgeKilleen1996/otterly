@@ -6,11 +6,12 @@ import { BaseAccount } from '../../../../main/auth/interfaces/auth';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideChevronDown } from '@ng-icons/lucide';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { ProfileDropdownComponent } from "../profile-dropdown/profile-dropdown.component";
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [CommonModule, UserAvatarComponent, OverlayModule],
+  imports: [CommonModule, UserAvatarComponent, OverlayModule, ProfileDropdownComponent],
   viewProviders: [provideIcons({ lucideChevronDown })],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss'

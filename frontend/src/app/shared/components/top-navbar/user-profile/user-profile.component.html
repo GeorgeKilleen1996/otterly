@@ -1,8 +1,7 @@
 <div cdkOverlayOrigin #profileMenuButton="cdkOverlayOrigin">
+  @if (activeUser){
   <button type="button" class="flex items-center gap-2" (click)="this.profileMenuOpen = !this.profileMenuOpen">
-    @if (activeUser){
       <ui-user-avatar [user]="activeUser" class="w-10 h-10" />
-    }
   </button>
   <ng-template
     cdkConnectedOverlay
@@ -11,6 +10,7 @@
     (backdropClick)="profileMenuOpen = false"
     [cdkConnectedOverlayOrigin]="profileMenuButton"
     [cdkConnectedOverlayOpen]="profileMenuOpen">
-    some test
+    <app-profile-dropdown [user]="activeUser"></app-profile-dropdown>
   </ng-template>
+  }
 </div>
