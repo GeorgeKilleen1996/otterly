@@ -2,6 +2,8 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@import '@angular/cdk/overlay-prebuilt.css';
+
 @layer base {
   /* Light Mode Contstants */
   :root {

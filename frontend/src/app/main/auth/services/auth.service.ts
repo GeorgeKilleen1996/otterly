@@ -26,7 +26,6 @@ export class AuthService {
       try {
         const loginInformation = localStorage.getItem('otterlyLoginInformation');
         if (loginInformation) {
-          console.trace("CALLED 1")
           this.loginInformation = JSON.parse(loginInformation);
           this.updateLoginState();
         }
@@ -91,7 +90,6 @@ export class AuthService {
               })
             )
             .subscribe(account => {
-              console.trace("CALLED 2")
               this.loginInformation = {
                 token: token.token ?? '',
                 account: account,
@@ -117,7 +115,6 @@ export class AuthService {
       .pipe(
         take(1),
         map(account => {
-          console.trace("CALLED 3")
           this.loginInformation = {
             token,
             account,

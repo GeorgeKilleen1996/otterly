@@ -1,5 +1,16 @@
-<button type="button" class="flex items-center gap-2">
-  @if (activeUser){
-    <ui-user-avatar [user]="activeUser" class="w-10 h-10" />
-  }
-</button>
+<div cdkOverlayOrigin #profileMenuButton="cdkOverlayOrigin">
+  <button type="button" class="flex items-center gap-2" (click)="this.profileMenuOpen = !this.profileMenuOpen">
+    @if (activeUser){
+      <ui-user-avatar [user]="activeUser" class="w-10 h-10" />
+    }
+  </button>
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayHasBackdrop]="true"
+    [cdkConnectedOverlayBackdropClass]="['cdk-overlay-transparent-backdrop']"
+    (backdropClick)="profileMenuOpen = false"
+    [cdkConnectedOverlayOrigin]="profileMenuButton"
+    [cdkConnectedOverlayOpen]="profileMenuOpen">
+    some test
+  </ng-template>
+</div>
