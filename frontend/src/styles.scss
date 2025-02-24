@@ -8,7 +8,7 @@
   /* Light Mode Contstants */
   :root {
     --theme-primary: #3a63e6;
-    --theme-primary-light: #3a63e650;
+    --theme-primary-light: #3a63e620;
     --theme-secondary: #4c3bcf;
     --theme-accent: #f2516f;
     --theme-background: #f5f5f7;
@@ -23,7 +23,7 @@
   @media (prefers-color-scheme: dark) {
     :root {
       --theme-primary: #4b70f5;
-      --theme-primary-light: #4b70f550;
+      --theme-primary-light: #4b70f520;
       --theme-secondary: #4c3bcf;
       --theme-accent: #fa4065;
       --theme-background: #1e2024;
@@ -67,6 +67,20 @@
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
     transition: background-color 0.1s;
+  }
+
+  .btn-nav {
+    border-radius: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .btn-nav:hover {
+    color: var(--theme-primary);
+    background-color: var(--theme-primary-light);
+    outline: 1px solid var(--theme-border);
+    transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
   }
 
   .bg-background-secondary {
