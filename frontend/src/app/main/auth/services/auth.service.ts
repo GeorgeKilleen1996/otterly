@@ -106,6 +106,13 @@ export class AuthService {
     return loginState;
   }
 
+  signOut() {
+    this.loginInformation = null;
+    this.saveLoginInformation();
+    this.updateLoginState();
+    this.router.navigate(['/auth/login']);
+  }
+
   refreshAccountDetails() {
     const token = this.loginInformation?.token;
     if (!token) return of(null);
