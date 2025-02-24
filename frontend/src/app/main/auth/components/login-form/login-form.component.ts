@@ -8,6 +8,7 @@ import { AuthService } from '../../services/auth.service';
 import { LoginDetails } from '../../interfaces/auth';
 import { finalize } from 'rxjs';
 import { Router } from '@angular/router';
+import { ToastService } from '../../../../UI/services/toast.service';
 
 @Component({
   selector: 'app-login-form',
@@ -19,7 +20,7 @@ import { Router } from '@angular/router';
 })
 export class LoginFormComponent {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private toastService: ToastService) { }
   
   loading:boolean = false;
   hiddenPassword:boolean = true;
@@ -51,12 +52,11 @@ export class LoginFormComponent {
           })
         ).subscribe({
           next: () => {
-            // TODO: Success toast?
             this.router.navigate(['/']);
           },
           error: (error) => {
-            // TODO: Handle error status in here (show the user an error message - toast? error input styling?)...
-        }
+            console.log('Some error here: ', error);
+          }
         });
     }
   }

@@ -1,9 +1,10 @@
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { LoginDetails, LoginInformation, LoginRequestResponse, LoginState } from '../interfaces/auth';
-import { BehaviorSubject, catchError, map, of, Subject, take } from 'rxjs';
+import { BehaviorSubject, catchError, map, of, Subject, take, throwError } from 'rxjs';
 import { AuthApiService } from './auth-api.service';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { ToastService } from '../../../UI/services/toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class AuthService {
   private loginStateSubject = new BehaviorSubject<LoginState>({ loggedIn: false, account: null });
   loginState$ = this.loginStateSubject.asObservable();
 
-  constructor(private apiService: AuthApiService, private router: Router) {
+  constructor(private apiService: AuthApiService, private router: Router, private toastService: ToastService) {
     this.loadLoginInformation();
     this.updateLoginState();
 
@@ -68,10 +69,10 @@ export class AuthService {
       .getToken(loginDetails)
       .pipe(
         catchError(err => {
-          console.error(err);
+          this.toastService.error('Invalid email or password');
           loginState.next({ status: 'error' });
           loginState.complete();
-          return [];
+          return throwError(() => err);
         })
       )
       .subscribe(token => {
@@ -83,10 +84,9 @@ export class AuthService {
             .getAccountDetailsForToken(token)
             .pipe(
               catchError(err => {
-                console.error(err);
                 loginState.next({ status: 'error' });
                 loginState.complete();
-                return [];
+                return throwError(() => err);
               })
             )
             .subscribe(account => {

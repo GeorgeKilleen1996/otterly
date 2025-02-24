@@ -6,6 +6,7 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './shared/http-interceptors/auth.interceptor';
 import { snake2CamInterceptor } from './shared/http-interceptors/snake2cam.interceptor';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,5 +16,6 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([authInterceptor, snake2CamInterceptor])
     ),
     provideClientHydration(), 
+    provideAnimations(),
   ],
 };
