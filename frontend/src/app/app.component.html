@@ -1,6 +1,6 @@
 <div class="relative">
   <router-outlet></router-outlet>
-  <div class="absolute right-0 top-16 p-2 flex flex-col gap-2">
+  <div class="absolute md:right-2 md:bottom-4 bottom-0 p-2 flex flex-col gap-2">
     <ng-container *ngFor="let toast of toastService._toasts">
       <ui-toast [@toast] [type]="toast.type">
         {{ toast.message }}

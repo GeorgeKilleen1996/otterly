@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideCircleAlert, lucideCircleCheck, lucideCircleX, lucideInfo } from '@ng-icons/lucide';
+import { lucideCircleAlert, lucideCircleCheck, lucideCircleX, lucideInfo, lucideX } from '@ng-icons/lucide';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'ui-toast',
   standalone: true,
   imports: [CommonModule, NgIcon],
-  viewProviders: [provideIcons({ lucideCircleCheck, lucideInfo, lucideCircleAlert, lucideCircleX })],
+  viewProviders: [provideIcons({ lucideCircleCheck, lucideInfo, lucideCircleAlert, lucideCircleX, lucideX })],
   templateUrl: './toast.component.html',
   styleUrl: './toast.component.scss'
 })
@@ -32,4 +32,8 @@ export class ToastComponent {
 
   type$ = new BehaviorSubject<string>('info')
   icon$ = new BehaviorSubject<string>('heroCheckCircle')
+
+  close() {
+    this.urgent = false
+  }
 }
