@@ -1,0 +1,13 @@
+<div *ngIf="type$ | async as type" class="flex rounded-lg relative p-4 card-background border-full drop-shadow-sm justify-between gap-4 md:w-fit w-[calc(100vw-1rem)] md:min-w-[30vw]">
+  <div class="rounded-lg flex justify-center items-center w-8 h-8" [ngClass]="{'bg-green-200': type === 'success', 'bg-sky-200': type === 'info', 'bg-amber-200': type === 'warning', 'bg-red-200': type === 'error'}">
+    <ng-icon *ngIf="icon$ | async as icon" [name]="icon" name="lucideLogIn" size="1rem" [ngClass]="{'text-green-600': type === 'success', 'text-sky-600': type === 'info', 'text-amber-600': type === 'warning', 'text-red-600': type === 'error'}" ></ng-icon>
+  </div>
+  <div class="flex flex-col flex-1">
+    <h6 class="font-semibold overflow-hidden text-ellipsis truncate h-8 flex items-center">
+      <ng-content></ng-content>
+    </h6>
+  </div>
+  <button type="button" (click)="closeToast()" class="flex justify-center items-center rounded-lg w-8 h-8 hover:bg-background-secondary hover:text-secondary text-border">
+    <ng-icon name="lucideX" size="1rem"></ng-icon>
+  </button>
+</div>
