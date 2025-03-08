@@ -61,4 +61,12 @@ export class ToastService {
     const l = this._toasts.push({ message, duration, type: 'error' })
     this.handleTimeout(this._toasts[l - 1])
   }
+
+  /**
+   * Remove a specific toast.
+   * @param toast The toast to remove.
+   */
+  public remove(toast: Toast) {
+    this._toasts.splice(this._toasts.indexOf(toast), 1)
+  }
 }

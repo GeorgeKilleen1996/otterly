@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideCircleAlert, lucideCircleCheck, lucideCircleX, lucideInfo, lucideX } from '@ng-icons/lucide';
 import { BehaviorSubject } from 'rxjs';
@@ -13,6 +13,7 @@ import { BehaviorSubject } from 'rxjs';
   styleUrl: './toast.component.scss'
 })
 export class ToastComponent {
+  @Output() close = new EventEmitter<void>()
   private icons = {
     success: 'lucideCircleCheck',
     info: 'lucideInfo',
@@ -28,12 +29,11 @@ export class ToastComponent {
     this.icon$.next(value)
   }
 
-  @Input() urgent: boolean = false
-
   type$ = new BehaviorSubject<string>('info')
   icon$ = new BehaviorSubject<string>('heroCheckCircle')
 
-  close() {
-    this.urgent = false
+  protected closeToast(): void {
+    this.close.emit()
   }
+  
 }
