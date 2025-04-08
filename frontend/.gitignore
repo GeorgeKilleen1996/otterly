@@ -1,42 +1,24 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
 
-# Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
+# Node dependencies
+node_modules
 
-# Node
-/node_modules
-npm-debug.log
-yarn-error.log
+# Logs
+logs
+*.log
 
-# IDEs and editors
-.idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.history/*
-
-# Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
-
-# System files
+# Misc
 .DS_Store
-Thumbs.db
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example

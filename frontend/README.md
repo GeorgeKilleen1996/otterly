@@ -1,27 +1,75 @@
-# Frontend
+# Nuxt Minimal Starter
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.7.
+Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-## Development server
+## Setup
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Make sure to install dependencies:
 
-## Code scaffolding
+```bash
+# npm
+npm install
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+# pnpm
+pnpm install
 
-## Build
+# yarn
+yarn install
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+# bun
+bun install
+```
 
-## Running unit tests
+## Development Server
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Start the development server on `http://localhost:3000`:
 
-## Running end-to-end tests
+```bash
+# npm
+npm run dev
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+# pnpm
+pnpm dev
 
-## Further help
+# yarn
+yarn dev
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+# bun
+bun run dev
+```
+
+## Production
+
+Build the application for production:
+
+```bash
+# npm
+npm run build
+
+# pnpm
+pnpm build
+
+# yarn
+yarn build
+
+# bun
+bun run build
+```
+
+Locally preview production build:
+
+```bash
+# npm
+npm run preview
+
+# pnpm
+pnpm preview
+
+# yarn
+yarn preview
+
+# bun
+bun run preview
+```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
