@@ -16,6 +16,8 @@
   --ui-error: #fa2c37;
   --ui-warning: #fe9900;
   --ui-info: #2b7fff;
+
+  --ui-radius: 0.25rem;
 }
 
 .dark {
