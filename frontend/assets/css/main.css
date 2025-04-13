@@ -1,2 +1,40 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+:root {
+  --ui-primary: #00bba7;
+  --ui-secondary: #00bc7d;
+
+  --ui-text: #000000;
+  --ui-text-accent: #61738e;
+
+  --ui-bg: #ffffff;
+  --ui-bg-accent: #f1f5f9;
+  --ui-border: #e2e8f1;
+
+  --ui-success: #02c169;
+  --ui-error: #fa2c37;
+  --ui-warning: #fe9900;
+  --ui-info: #2b7fff;
+}
+
+.dark {
+  --ui-primary: #00d5be;
+  --ui-secondary: #00d492;
+
+  --ui-text: #ffffff;
+  --ui-text-accent: #8fa1b9;
+
+  --ui-bg: #0e172b;
+  --ui-bg-accent: #1d283c;
+  --ui-border: #1d283c;
+
+  --ui-success: #00dc81;
+  --ui-error: #ff6367;
+  --ui-warning: #ffb900;
+  --ui-info: #50a2ff;
+}
+
+body {
+  color: var(--ui-bg);
+}
