@@ -1,9 +1,123 @@
+<script setup lang="ts">
+const state = reactive({
+  email: undefined,
+  password: undefined,
+});
+
+const show = ref(false);
+
+const onSubmit = () => {};
+</script>
 <template>
   <UCard variant="subtle">
-    <!-- TODO: Providers e.g. Google etc. -->
-    <Placeholder class="h-32" />
+    <div class="flex flex-col items-center gap-4">
+      <UIcon name="i-lucide-log-in" size="3rem" />
+      <h1>Welcome back!</h1>
+      <p class="text-sm text-center -mt-2 mb-4">
+        Please enter your credentials to access your account.
+      </p>
+    </div>
+    <!-- TODO: Setup Auth w/ External providers -->
+    <div class="flex space-x-4 p-4">
+      <UButton
+        label="Google"
+        color="neutral"
+        block
+        size="xl"
+        disabled
+        variant="subtle"
+        icon="i-cib-google"
+        class="cursor-pointer"
+      />
+      <UButton
+        label="Apple"
+        color="neutral"
+        block
+        size="xl"
+        disabled
+        variant="subtle"
+        icon="i-cib-apple"
+        class="cursor-pointer"
+      />
+      <UButton
+        label="GitHub"
+        color="neutral"
+        block
+        size="xl"
+        disabled
+        variant="subtle"
+        icon="i-cib-github"
+        class="cursor-pointer"
+      />
+    </div>
     <USeparator label="or" />
-    <!-- TODO: Default Login Form... Email & Password -->
-    <Placeholder class="h-32" />
+    <UForm :state="state" class="space-y-4 p-4" @submit="onSubmit">
+      <UFormField label="Email Address" required>
+        <UInput
+          icon="i-lucide-user-round"
+          placeholder="Enter your email"
+          size="xl"
+          class="w-full"
+        />
+      </UFormField>
+      <UFormField label="Password" required>
+        <UInput
+          icon="i-lucide-key"
+          placeholder="Enter your password"
+          size="xl"
+          class="w-full"
+          :type="show ? 'text' : 'password'"
+          :ui="{ trailing: 'pe-1' }"
+        >
+          <template #trailing>
+            <UButton
+              color="neutral"
+              variant="link"
+              size="lg"
+              :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+              :aria-label="show ? 'Hide password' : 'Show password'"
+              :aria-pressed="show"
+              aria-controls="password"
+              class="cursor-pointer"
+              @click="show = !show"
+            />
+          </template>
+        </UInput>
+      </UFormField>
+      <UButton
+        type="submit"
+        label="Login"
+        color="primary"
+        size="xl"
+        block
+        class="cursor-pointer"
+        :loading="false"
+      />
+    </UForm>
+    <div class="flex items-center justify-between px-4 -mt-2">
+      <UCheckbox label="Remember me" size="lg" class="cursor-pointer" />
+      <UButton
+        label="Forgotten password?"
+        color="primary"
+        variant="link"
+        size="lg"
+        class="cursor-pointer"
+        to="/auth/forgotten-password"
+      />
+    </div>
+    <div class="flex flex-col items-center justify-center px-4 mt-2">
+      <USeparator class="my-4" />
+      <p class="text-sm text-center">
+        Don't have an account?
+        <UButton
+          label="Sign up"
+          color="primary"
+          variant="link"
+          size="lg"
+          class="cursor-pointer px-0"
+          to="/auth/register"
+        />
+      </p>
+    </div>
   </UCard>
 </template>

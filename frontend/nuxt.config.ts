@@ -10,6 +10,11 @@ export default defineNuxtConfig({
     ],
   },
   css: ['~/assets/css/main.css'],
+  ui: {
+    theme:{
+      colors: ['primary','secondary','success','info','warning','error']
+    }
+  },
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
