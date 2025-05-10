@@ -1,12 +1,38 @@
 <script setup lang="ts">
-const state = reactive({
-  email: undefined,
-  password: undefined,
+import type { LoginDetails, TokenDetails } from "~/types/auth";
+
+const state = reactive<LoginDetails>({
+  email: "",
+  password: "",
 });
 
 const show = ref(false);
 
-const onSubmit = () => {};
+const onSubmit = async () => {
+  await $fetch<TokenDetails>(
+    useRuntimeConfig().public.apiBase + "/auth/token/",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        email: state.email,
+        password: state.password,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
+    .then((response) => {
+      // TODO: Handle successful login here
+      // Need to store basic user info in local storage alongside the token -
+      // is verified - which will be used in the 2 factor process
+      console.log(response);
+    })
+    .catch((error) => {
+      // TODO: Handle errors here
+      console.error("Error:", error);
+    });
+};
 </script>
 <template>
   <UCard variant="subtle">
@@ -54,6 +80,7 @@ const onSubmit = () => {};
     <UForm :state="state" class="space-y-4 p-4" @submit="onSubmit">
       <UFormField label="Email Address" required>
         <UInput
+          v-model="state.email"
           icon="i-lucide-user-round"
           placeholder="Enter your email"
           size="xl"
@@ -62,6 +89,7 @@ const onSubmit = () => {};
       </UFormField>
       <UFormField label="Password" required>
         <UInput
+          v-model="state.password"
           icon="i-lucide-key"
           placeholder="Enter your password"
           size="xl"

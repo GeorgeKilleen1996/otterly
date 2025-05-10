@@ -21,5 +21,10 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/test-utils',
     '@nuxt/ui'
-  ]
+  ],
+  runtimeConfig: {
+    public: {
+      apiBase: '',
+    },
+  }
 })
