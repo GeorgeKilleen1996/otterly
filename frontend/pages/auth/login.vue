@@ -4,7 +4,7 @@
       <!-- TODO: Some sort of information section / slider?  -->
     </div>
     <div
-      class="w-full lg:max-w-lg md:max-w-md flex items-center justify-center md:px-10 px-4 mx-auto"
+      class="w-full max-w-lg flex items-center justify-center md:px-10 px-4 mx-auto"
     >
       <AuthLoginFormComponent class="w-full" />
     </div>

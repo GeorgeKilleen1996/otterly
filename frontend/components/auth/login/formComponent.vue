@@ -56,16 +56,6 @@ const onSubmit = async () => {
         class="cursor-pointer"
       />
       <UButton
-        label="Apple"
-        color="neutral"
-        block
-        size="xl"
-        disabled
-        variant="subtle"
-        icon="i-cib-apple"
-        class="cursor-pointer"
-      />
-      <UButton
         label="GitHub"
         color="neutral"
         block
