@@ -4,6 +4,7 @@ export interface LoginDetails {
 }
 
 export interface TokenDetails {
+  is_verified?: boolean
   two_factor_required?: boolean
   token?: string
   session?: string

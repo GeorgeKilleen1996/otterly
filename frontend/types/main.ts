@@ -1,6 +1,6 @@
 export interface Response<T> {
   status: number
-  statusText: string
+  message: string
   data?: T
 }
 

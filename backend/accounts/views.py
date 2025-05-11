@@ -10,6 +10,7 @@ from rest_framework.response import Response
 
 User = get_user_model()
 
+
 def login_user(request, user):
     if not hasattr(user, "backend"):
         for backend in settings.AUTHENTICATION_BACKENDS:
@@ -19,27 +20,29 @@ def login_user(request, user):
     if hasattr(user, "backend"):
         return login(request, user)
 
-class LoginView(views.APIView):
-    """
-    View used to log users in. Not to be used to register users, that's the
-    POST endpoint on the UserViewSet.
-    """
-    serializer_class = serializers.LoginSerializer
-    permission_classes = [permissions.AllowAny]
 
-    def post(self, request):
-        """
-        POST request to log a user in. Returns a token if successful.
-        """
+# class LoginView(views.APIView):
+#     """
+#     View used to log users in. Not to be used to register users, that's the
+#     POST endpoint on the UserViewSet.
+#     """
+#     serializer_class = serializers.LoginSerializer
+#     permission_classes = [permissions.AllowAny]
 
-        user = get_object_or_404(User, email=request.get('email'))
+#     def post(self, request):
+#         """
+#         POST request to log a user in. Returns a token if successful.
+#         """
 
-        if not user.check_password(request.get('password')):
-            return Response({'error': 'Invalid Credentials'}, status=400)
+#         user = get_object_or_404(User, email=request.get('email'))
 
-        token, _ = Token.objects.get_or_create(user=user)
+#         if not user.check_password(request.get('password')):
+#             return Response({'error': 'Invalid Credentials'}, status=400)
 
-        return Response({'token': token.key}, status=200)
+#         token, _ = Token.objects.get_or_create(user=user)
+
+#         return Response({'token': token.key}, status=200)
+
 
 # ! TODO: When creating a new user, send back the token so it saves making another request to login after registering.
 class UserViewSet(
@@ -70,6 +73,7 @@ class UserViewSet(
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
 
+
 class AuthTokenView(views.APIView):
     serializer_class = serializers.LoginSerializer
     permission_classes = [permissions.AllowAny]
@@ -78,15 +82,28 @@ class AuthTokenView(views.APIView):
         user = get_object_or_404(User, email=request.data["email"])
 
         if not user.check_password(request.data["password"]):
-            return Response({"error": "Invalid password"}, status=400)
+            return Response(
+                {
+                    "status": 401,
+                    "message": "Invalid Login Credentials",
+                },
+                status=401,
+            )
 
         token, created = Token.objects.get_or_create(user=user)
         return Response(
             {
-                "two_factor_required": False,
-                "token": token.key,
-            }
+                "status": 200,
+                "message": "Login successful",
+                "data": {
+                    "token": token.key,
+                    "is_verified": user.is_verified,
+                    "two_factor_required": "false",
+                },
+            },
+            status=200,
         )
+
 
 class AdminLoginView(View):
     def get(self, request):

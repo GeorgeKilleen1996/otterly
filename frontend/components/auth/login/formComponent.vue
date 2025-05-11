@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Response } from "~/types/main";
 import type { LoginDetails, TokenDetails } from "~/types/auth";
 
 const state = reactive<LoginDetails>({
@@ -9,7 +10,7 @@ const state = reactive<LoginDetails>({
 const show = ref(false);
 
 const onSubmit = async () => {
-  await $fetch<TokenDetails>(
+  await $fetch<Response<TokenDetails>>(
     useRuntimeConfig().public.apiBase + "/auth/token/",
     {
       method: "POST",
@@ -23,14 +24,29 @@ const onSubmit = async () => {
     }
   )
     .then((response) => {
-      // TODO: Handle successful login here
-      // Need to store basic user info in local storage alongside the token -
-      // is verified - which will be used in the 2 factor process
-      console.log(response);
+      if (response.status === 200 && response.data) {
+        const otterlyUser = {
+          token: response.data.token,
+          is_verified: response.data.is_verified,
+        };
+        const otterlyCookie = useCookie("otterly_user", {
+          maxAge: 60 * 60 * 24 * 7 * 365,
+        });
+        otterlyCookie.value = JSON.stringify(otterlyUser);
+        useRouter().push("/");
+      }
     })
     .catch((error) => {
-      // TODO: Handle errors here
-      console.error("Error:", error);
+      useToast().add({
+        title: "Unable to login",
+        description:
+          error.response?.data?.message ||
+          "Please check your login credentials and try again.",
+        color: "error",
+        icon: "i-lucide-octagon-x",
+      });
+
+      // TODO: Trigger error state in form
     });
 };
 </script>
