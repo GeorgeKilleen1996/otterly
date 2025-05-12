@@ -153,5 +153,12 @@ const onSubmit = async () => {
         />
       </p>
     </div>
+    <div class="flex justify-center items-center p-4">
+      <img
+        src="~/assets/img/otterly-logo.png"
+        alt="Otterly Logo"
+        class="w-6 h-auto"
+      />
+    </div>
   </UCard>
 </template>
