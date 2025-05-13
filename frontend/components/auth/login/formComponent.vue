@@ -11,7 +11,7 @@ const show = ref(false);
 
 const onSubmit = async () => {
   await $fetch<Response<TokenDetails>>(
-    useRuntimeConfig().public.apiBase + "/auth/token/",
+    useRuntimeConfig().public.apiBase + "auth/token/",
     {
       method: "POST",
       body: JSON.stringify({
