@@ -33,7 +33,14 @@ const sendVerificationCode = () => {
 <template>
   <UCard variant="subtle" class="mt-4">
     <div class="flex flex-col items-center gap-4">
-      <UIcon name="i-lucide-send" size="2.5rem" />
+      <!-- <UIcon name="i-lucide-send" size="2.5rem" /> -->
+      <div class="flex justify-center items-center pb-4 pt-2">
+        <img
+          src="~/assets/img/otterly-logo.png"
+          alt="Otterly Logo"
+          class="w-20 h-auto"
+        />
+      </div>
       <h2>Verify your email</h2>
       <p class="text-sm text-center -mt-2 mb-4">
         We need to make sure you're not a robot, and the best way to do that is
