@@ -16,6 +16,7 @@ const items = [
   {
     slot: "confirmation" as const,
     title: "Account Verified",
+    icon: "i-lucide-verified",
   },
 ] satisfies StepperItem[];
 const active = ref(0);
@@ -91,7 +92,7 @@ const interval = setInterval(() => {
     <template #confirmation>
       <UCard variant="subtle" class="mt-4">
         <div class="flex flex-col items-center gap-4">
-          <UIcon name="i-lucide-send" size="2.5rem" />
+          <UIcon name="i-lucide-verified" size="2.5rem" />
           <h2>Email successfully verified</h2>
           <p class="text-sm text-center -mt-2 mb-4">
             Your account has been verified successfully, login below or you will
