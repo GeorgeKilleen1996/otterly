@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // Imports
+import type { TokenDetails } from "~/types/auth";
 
 // Declared variables / objects
 const loading = ref(false);
@@ -10,12 +11,24 @@ const interval = setInterval(() => {
   } else {
     loading.value = true;
     clearInterval(interval);
-    // TODO: Update the cookie with the new is_verified value to prevent redirecting back to the verify page
-    // Create a function for this which will be trigger when the button is also clicked :)
-    // useRouter().push("/auth/login");
+    redirectToLogin();
   }
 }, 1000);
+
 // Functions
+const redirectToLogin = () => {
+  loading.value = true;
+  clearInterval(interval);
+
+  const oldCookie = useCookie("otterly_user").value as TokenDetails;
+  oldCookie.is_verified = true;
+
+  const newCookie = useCookie("otterly_user", {
+    maxAge: 60 * 60 * 24 * 7 * 365,
+  });
+  newCookie.value = JSON.stringify(oldCookie);
+  useRouter().push("/");
+};
 </script>
 <template>
   <UCard variant="subtle" class="mt-4">
@@ -24,9 +37,12 @@ const interval = setInterval(() => {
       <h2>Email successfully verified</h2>
       <p class="text-sm text-center -mt-2 mb-4">
         Your account has been verified successfully, login below or you will be
-        redirected automatically in {{ redirectionCounter }} second{{
-          redirectionCounter !== 1 ? "s" : ""
-        }}. We hope you enjoy using Otterly.
+        redirected automatically in
+        <span class="font-bold"
+          >{{ redirectionCounter }} second{{
+            redirectionCounter !== 1 ? "s" : ""
+          }}</span
+        >. We hope you enjoy using Otterly.
       </p>
       <UButton
         type="button"
@@ -36,6 +52,7 @@ const interval = setInterval(() => {
         block
         class="cursor-pointer"
         :loading="loading"
+        @click="redirectToLogin"
       />
     </div>
   </UCard>
