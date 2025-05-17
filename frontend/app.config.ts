@@ -9,7 +9,7 @@ export default defineAppConfig({
   },
   theme: {
     radius: 0.25,
-    blackAsPrimary: false
+    blackAsPrimary: false,
   },
   ui: {
     colors: {
@@ -19,6 +19,9 @@ export default defineAppConfig({
       info: 'info',
       warning: 'warning',
       error: 'error',
+    },
+    icons: {
+      loading: 'i-lucide-loader-circle',
     }
   }
 })
