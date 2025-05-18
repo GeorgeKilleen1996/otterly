@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-xbg&(8bklov7%iry4r(-hts_jp_l6+$o*t*6tvhmwiwf0=vfow'
+SECRET_KEY = "django-insecure-xbg&(8bklov7%iry4r(-hts_jp_l6+$o*t*6tvhmwiwf0=vfow"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -36,59 +36,59 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django_celery_results',
-    'corsheaders',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'django_filters',
-    'accounts',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django_celery_results",
+    "corsheaders",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "django_filters",
+    "accounts",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = "config.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -98,38 +98,38 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = "accounts.User"
 
 
 # Cache
 
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'unique-snowflake',
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
     }
 }
 
 
 # Celery
 
-CELERY_CACHE_BACKEND = 'default'
-CELERY_RESULT_BACKEND = 'django-db'
-BROKER_BACKEND = os.getenv('BROKER_BACKEND', 'redis://')
-CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://')
+CELERY_CACHE_BACKEND = "default"
+CELERY_RESULT_BACKEND = "django-db"
+BROKER_BACKEND = os.getenv("BROKER_BACKEND", "redis://")
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://")
 
 # This ensures the admin panel displays the correct information
 CELERY_RESULT_EXTENDED = True
@@ -143,34 +143,34 @@ CELERYD_PREFETCH_MULTIPLIER = 1
 # Django Rest Framework
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
     ],
-    'DEFAULT_FILTER_BACKENDS': [
-        'rest_framework.filters.SearchFilter',
-        'rest_framework.filters.OrderingFilter',
-        'django_filters.rest_framework.DjangoFilterBackend'
+    "DEFAULT_FILTER_BACKENDS": [
+        "rest_framework.filters.SearchFilter",
+        "rest_framework.filters.OrderingFilter",
+        "django_filters.rest_framework.DjangoFilterBackend",
     ],
-    'DEFAULT_PARSER_CLASSES': [
-        'rest_framework.parsers.JSONParser',
-        'rest_framework.parsers.FormParser',
-        'rest_framework.parsers.MultiPartParser',
+    "DEFAULT_PARSER_CLASSES": [
+        "rest_framework.parsers.JSONParser",
+        "rest_framework.parsers.FormParser",
+        "rest_framework.parsers.MultiPartParser",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
-    'PAGE_SIZE': 20,
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    "PAGE_SIZE": 20,
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
 }
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-gb'
+LANGUAGE_CODE = "en-gb"
 
-TIME_ZONE = 'Europe/London'
+TIME_ZONE = "Europe/London"
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_ENABLE_UTC = False
 
@@ -182,43 +182,58 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "static"
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
-ENABLE_S3 = os.getenv('S3_ENABLE', '').upper() == 'TRUE'
+ENABLE_S3 = os.getenv("S3_ENABLE", "").upper() == "TRUE"
 if ENABLE_S3:
-    AWS_S3_SECURE_URLS = os.getenv('S3_SECURE_URLS', '').upper() != 'FALSE'
+    AWS_S3_SECURE_URLS = os.getenv("S3_SECURE_URLS", "").upper() != "FALSE"
     AWS_S3_USE_SSL = AWS_S3_SECURE_URLS
-    AWS_S3_ENDPOINT_URL = os.getenv('S3_ENDPOINT_URL')
-    AWS_ACCESS_KEY_ID = os.getenv('S3_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.getenv('S3_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.getenv('S3_STORAGE_BUCKET_NAME')
-    AWS_DEFAULT_ACL = 'public-read'
-    AWS_S3_CUSTOM_DOMAIN = os.getenv('S3_STORAGE_CUSTOM_DOMAIN')
+    AWS_S3_ENDPOINT_URL = os.getenv("S3_ENDPOINT_URL")
+    AWS_ACCESS_KEY_ID = os.getenv("S3_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.getenv("S3_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = os.getenv("S3_STORAGE_BUCKET_NAME")
+    AWS_DEFAULT_ACL = "public-read"
+    AWS_S3_CUSTOM_DOMAIN = os.getenv("S3_STORAGE_CUSTOM_DOMAIN")
     S3_USING_CUSTOM_DOMAIN = AWS_S3_CUSTOM_DOMAIN is not None
-    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
 
-    PROTOCOL_STRING = 'http'
+    PROTOCOL_STRING = "http"
     if AWS_S3_SECURE_URLS:
-        PROTOCOL_STRING = 'https'
+        PROTOCOL_STRING = "https"
 
-    STATIC_LOCATION = 'static'
+    STATIC_LOCATION = "static"
 
-    STATIC_URL = f'{PROTOCOL_STRING}://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STORAGE_BUCKET_NAME}/{STATIC_LOCATION}/'
+    STATIC_URL = f"{PROTOCOL_STRING}://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STORAGE_BUCKET_NAME}/{STATIC_LOCATION}/"
     if S3_USING_CUSTOM_DOMAIN:
-        STATIC_URL = f'{PROTOCOL_STRING}://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-    STATICFILES_STORAGE = 'config.storage_backends.StaticStorage'
+        STATIC_URL = f"{PROTOCOL_STRING}://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/"
+    STATICFILES_STORAGE = "config.storage_backends.StaticStorage"
 
-    PUBLIC_MEDIA_LOCATION = 'media'
-    MEDIA_URL = f'{PROTOCOL_STRING}://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STORAGE_BUCKET_NAME}/{PUBLIC_MEDIA_LOCATION}/'
+    PUBLIC_MEDIA_LOCATION = "media"
+    MEDIA_URL = f"{PROTOCOL_STRING}://{AWS_S3_CUSTOM_DOMAIN}/{AWS_STORAGE_BUCKET_NAME}/{PUBLIC_MEDIA_LOCATION}/"
     if S3_USING_CUSTOM_DOMAIN:
-        MEDIA_URL = f'{PROTOCOL_STRING}://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
-    DEFAULT_FILE_STORAGE = 'config.storage_backends.PublicMediaStorage'
+        MEDIA_URL = (
+            f"{PROTOCOL_STRING}://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/"
+        )
+    DEFAULT_FILE_STORAGE = "config.storage_backends.PublicMediaStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# EMAIL SETTINGS
+SITE_NAME = os.getenv("SITE_NAME", "Otterly")
+SITE_URL = os.getenv("SITE_URL", "https://otterlyapp.io")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "verify@otterlyapp.io")
+EMAIL_HOST = os.getenv("EMAIL_HOST", "127.0.0.1")
+EMAIL_PORT = os.getenv("EMAIL_PORT", "1025")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS") != None
+
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000/")

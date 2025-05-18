@@ -60,7 +60,7 @@ class UserViewSet(
         try:
             user = get_object_or_404(User, email=request.data["email"])
             token = EmailVerificationToken.objects.create(user=user)
-            # send_verification_email(user, token, self.request)
+            send_verification_email(user, token)
             return Response(
                 {
                     "status": 200,
@@ -72,7 +72,7 @@ class UserViewSet(
             return Response(
                 {
                     "status": 500,
-                    "message": "Error generating token",
+                    "message": "Error generating token - " + str(e),
                 },
                 status=500,
             )

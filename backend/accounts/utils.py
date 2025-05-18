@@ -3,28 +3,27 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
+import os
+import base64
 
-def send_verification_email(user, token, request):
+
+def send_verification_email(user, token):
     """Send verification email to user with token"""
-    # Get the domain from request
-    domain = request.get_host()
-    protocol = "https" if request.is_secure() else "http"
 
-    # Create verification URL - redirecting to frontend
-    frontend_url = settings.FRONTEND_URL  # Define this in your settings.py
-
-    # Email subject and content
-    subject = "Verify your email address"
-
-    # You can use an HTML template
     html_message = render_to_string(
         "email/verification_email.html",
         {
-            "user": user,
+            "first_name": user.first_name,
+            "email": user.email,
             "verification_code": token.token,
             "expiry_minutes": 30,
+            "verification_link": f"{settings.FRONTEND_URL}auth/verify?token={token.token}",
+            "site_name": settings.SITE_NAME,
+            "site_url": settings.SITE_URL,
         },
     )
+
+    subject = f"Verify your email address for {settings.SITE_NAME}"
 
     plain_message = strip_tags(html_message)
 
