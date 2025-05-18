@@ -8,6 +8,11 @@ from django.contrib.auth import login, load_backend, get_user_model
 from django.conf import settings
 from rest_framework.response import Response
 
+# Email verification imports
+from .models import EmailVerificationToken
+from .serializers import VerifyEmailSerializer
+from .utils import send_verification_email
+
 User = get_user_model()
 
 
@@ -21,30 +26,6 @@ def login_user(request, user):
         return login(request, user)
 
 
-# class LoginView(views.APIView):
-#     """
-#     View used to log users in. Not to be used to register users, that's the
-#     POST endpoint on the UserViewSet.
-#     """
-#     serializer_class = serializers.LoginSerializer
-#     permission_classes = [permissions.AllowAny]
-
-#     def post(self, request):
-#         """
-#         POST request to log a user in. Returns a token if successful.
-#         """
-
-#         user = get_object_or_404(User, email=request.get('email'))
-
-#         if not user.check_password(request.get('password')):
-#             return Response({'error': 'Invalid Credentials'}, status=400)
-
-#         token, _ = Token.objects.get_or_create(user=user)
-
-#         return Response({'token': token.key}, status=200)
-
-
-# ! TODO: When creating a new user, send back the token so it saves making another request to login after registering.
 class UserViewSet(
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
@@ -72,6 +53,33 @@ class UserViewSet(
     def me(self, request):
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
+
+    # TODO: Create token for the user
+    @action(detail=False, methods=["post"], url_path="generate-token")
+    def generate_token(self, request):
+        try:
+            user = get_object_or_404(User, email=request.data["email"])
+            token = EmailVerificationToken.objects.create(user=user)
+            # send_verification_email(user, token, self.request)
+            return Response(
+                {
+                    "status": 200,
+                    "message": "Token generated successfully",
+                },
+                status=200,
+            )
+        except Exception as e:
+            return Response(
+                {
+                    "status": 500,
+                    "message": "Error generating token",
+                },
+                status=500,
+            )
+
+    # TODO: Verify email
+
+    # TODO: Resend verification email
 
 
 class AuthTokenView(views.APIView):

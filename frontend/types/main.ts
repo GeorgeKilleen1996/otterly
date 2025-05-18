@@ -1,6 +1,9 @@
-export interface Response<T> {
+export interface Res {
   status: number
   message: string
+}
+
+export interface Response<T> extends Res {
   data?: T
 }
 

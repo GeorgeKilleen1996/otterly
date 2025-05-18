@@ -1,14 +1,17 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from .models import EmailVerificationToken
 
 User = get_user_model()
+
 
 class LoginSerializer(serializers.Serializer):
     """
     Serializer for the login view.
     """
-    email = serializers.CharField(max_length=255, style={'input_type': 'email'})
-    password = serializers.CharField(max_length=128, style={'input_type': 'password'})
+
+    email = serializers.CharField(max_length=255, style={"input_type": "email"})
+    password = serializers.CharField(max_length=128, style={"input_type": "password"})
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -52,3 +55,7 @@ class UserSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         rep = super().to_representation(instance)
         return rep
+
+
+class VerifyEmailSerializer(serializers.Serializer):
+    code = serializers.CharField(max_length=6, min_length=6)

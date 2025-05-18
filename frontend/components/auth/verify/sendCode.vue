@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Res } from "~/types/main";
+
 // Imports
 
 // Declared variables / objects
@@ -14,7 +16,7 @@ const emit = defineEmits<{
 }>();
 
 // Functions
-const sendVerificationCode = () => {
+const sendVerificationCode = async () => {
   loading.value = true;
   useToast().add({
     title: "Verification code sent",
@@ -24,10 +26,29 @@ const sendVerificationCode = () => {
     icon: "i-lucide-send",
   });
   // TODO: Trigger verification code sending for the user...
-  setTimeout(() => {
-    loading.value = false;
-    emit("update:step", props.step + 1);
-  }, 1000);
+  loading.value = true;
+  await $fetch<Res>(
+    useRuntimeConfig().public.apiBase + "users/generate-token/",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        email: useAuthStore().getUser?.email,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Token ${useAuthStore().getToken}`,
+      },
+    }
+  )
+    .then((response) => {
+      if (response.status === 200) {
+        loading.value = false;
+        emit("update:step", props.step + 1);
+      }
+    })
+    .catch((error) => {
+      // TODO: Handle error here...
+    });
 };
 </script>
 <template>
