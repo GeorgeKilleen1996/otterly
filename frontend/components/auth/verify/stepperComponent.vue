@@ -2,6 +2,8 @@
 // Imports
 import type { StepperItem } from "@nuxt/ui";
 
+// TODO: Add autofill for clicked link ?token=xxxxxx (query param)
+
 // Declared variables / objects
 const items = [
   {
