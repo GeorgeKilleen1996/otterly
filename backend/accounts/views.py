@@ -76,37 +76,41 @@ class UserViewSet(
                 status=500,
             )
 
-    # TODO: Verify token
     @action(detail=False, methods=["post"], url_path="verify-token")
     def verify_email(self, request):
         user = get_object_or_404(User, email=request.data["email"])
-        token = get_object_or_404(EmailVerificationToken, token=request.data["token"])
-        if token.user != user:
+        token = EmailVerificationToken.objects.filter(
+            token=request.data.get("token")
+        ).first()
+
+        if token and token.user == user:
+            if not token.is_valid():
+                return Response(
+                    {
+                        "status": 400,
+                        "message": "Token has expired, please request a new token.",
+                    },
+                    status=400,
+                )
+            else:
+                user.is_verified = True
+                user.save()
+                token.delete()
+                return Response(
+                    {
+                        "status": 200,
+                        "message": "Token verified successfully",
+                    },
+                    status=200,
+                )
+        else:
             return Response(
                 {
-                    "status": 400,
-                    "message": "Invalid token for this user",
+                    "status": 404,
+                    "message": "Invalid token entered, please double check your email and enter the correct token. If you have not received a token, please check your spam folder or request a new token.",
                 },
-                status=400,
+                status=404,
             )
-        if not token.is_valid():
-            return Response(
-                {
-                    "status": 400,
-                    "message": "Token has expired",
-                },
-                status=400,
-            )
-        user.is_verified = True
-        user.save()
-        token.delete()
-        return Response(
-            {
-                "status": 200,
-                "message": "Email verified successfully",
-            },
-            status=200,
-        )
 
     # TODO: Resend verification email
 
