@@ -1,8 +1,10 @@
 <script setup lang="ts">
 // Imports
+import type { Res } from "~/types/main";
 
 // Declared variables / objects
 const code = ref([] as string[]);
+const loading = ref(false);
 const props = defineProps({
   step: {
     type: Number,
@@ -14,12 +16,32 @@ const emit = defineEmits<{
 }>();
 
 // Functions
-const checkVerificationCode = () => {
+const checkVerificationCode = async () => {
   const verificationCode = code.value.join("");
   console.log("Verification code entered:", verificationCode);
   // TODO: Actually check the verification code entered with the expected one...
   // For now, just simulate a successful verification
-  emit("update:step", props.step + 1);
+  loading.value = true;
+  await $fetch<Res>(useRuntimeConfig().public.apiBase + "users/verify-token/", {
+    method: "POST",
+    body: JSON.stringify({
+      email: useAuthStore().getUser?.email,
+      token: verificationCode,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Token ${useAuthStore().getToken}`,
+    },
+  })
+    .then((response) => {
+      if (response.status === 200) {
+        loading.value = false;
+        emit("update:step", props.step + 1);
+      }
+    })
+    .catch((error) => {
+      // TODO: Handle error here...
+    });
 };
 </script>
 <template>
@@ -45,7 +67,7 @@ const checkVerificationCode = () => {
           block
           class="cursor-pointer"
           :disabled="code.length < 6"
-          :loading="false"
+          :loading="loading"
         />
       </UForm>
     </div>

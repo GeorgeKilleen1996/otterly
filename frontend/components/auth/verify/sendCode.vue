@@ -17,7 +17,6 @@ const emit = defineEmits<{
 
 // Functions
 const sendVerificationCode = async () => {
-  loading.value = true;
   useToast().add({
     title: "Verification code sent",
     description:

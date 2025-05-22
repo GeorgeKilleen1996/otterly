@@ -54,7 +54,6 @@ class UserViewSet(
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
 
-    # TODO: Create token for the user
     @action(detail=False, methods=["post"], url_path="generate-token")
     def generate_token(self, request):
         try:
@@ -77,7 +76,37 @@ class UserViewSet(
                 status=500,
             )
 
-    # TODO: Verify email
+    # TODO: Verify token
+    @action(detail=False, methods=["post"], url_path="verify-token")
+    def verify_email(self, request):
+        user = get_object_or_404(User, email=request.data["email"])
+        token = get_object_or_404(EmailVerificationToken, token=request.data["token"])
+        if token.user != user:
+            return Response(
+                {
+                    "status": 400,
+                    "message": "Invalid token for this user",
+                },
+                status=400,
+            )
+        if not token.is_valid():
+            return Response(
+                {
+                    "status": 400,
+                    "message": "Token has expired",
+                },
+                status=400,
+            )
+        user.is_verified = True
+        user.save()
+        token.delete()
+        return Response(
+            {
+                "status": 200,
+                "message": "Email verified successfully",
+            },
+            status=200,
+        )
 
     # TODO: Resend verification email
 
