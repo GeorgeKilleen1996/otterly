@@ -7,9 +7,25 @@ from email.mime.image import MIMEImage
 import os
 
 
-def send_verification_email(user, token):
-    """Send verification email to user with token"""
+def attach_image(msg, image_path, content_id, filename):
+    """
+    Helper function to attach an image to an email.
+    """
+    try:
+        with open(image_path, "rb") as img:
+            img_data = img.read()
+            image = MIMEImage(img_data)
+            image.add_header("Content-ID", f"<{content_id}>")  # This is the CID
+            image.add_header("Content-Disposition", "inline", filename=filename)
+            msg.attach(image)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Image not found at path: {image_path}")
 
+
+def send_verification_email(user, token):
+    """
+    Send verification email to user with token.
+    """
     html_message = render_to_string(
         "email/verification_email.html",
         {
@@ -29,27 +45,17 @@ def send_verification_email(user, token):
     msg = EmailMultiAlternatives(subject, "", settings.DEFAULT_FROM_EMAIL, [user.email])
     msg.attach_alternative(html_message, "text/html")
 
-    # Attach an image to the email
-    header_image = os.path.join(
+    # Attach header and footer images
+    header_image_path = os.path.join(
         settings.BASE_DIR, "static", "images", "header-logo.png"
     )
-    with open(header_image, "rb") as img:
-        img_data = img.read()
-        image = MIMEImage(img_data)
-        image.add_header("Content-ID", "<header-logo>")  # This is the CID
-        image.add_header("Content-Disposition", "inline", filename="header-logo.png")
-        msg.attach(image)
-
-    footer_image = os.path.join(
+    footer_image_path = os.path.join(
         settings.BASE_DIR, "static", "images", "footer-logo.png"
     )
-    with open(footer_image, "rb") as img:
-        img_data = img.read()
-        image = MIMEImage(img_data)
-        image.add_header("Content-ID", "<footer-logo>")  # This is the CID
-        image.add_header("Content-Disposition", "inline", filename="footer-logo.png")
-        msg.attach(image)
+    attach_image(msg, header_image_path, "header-logo", "header-logo.png")
+    attach_image(msg, footer_image_path, "footer-logo", "footer-logo.png")
 
+    # Actually send the email
     msg.send()
 
     # Mark token as sent
