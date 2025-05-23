@@ -72,7 +72,7 @@ class UserViewSet(
             return Response(
                 {
                     "status": 500,
-                    "message": "Error generating token - " + str(e),
+                    "message": str(e),
                 },
                 status=500,
             )
@@ -100,7 +100,7 @@ class UserViewSet(
                 return Response(
                     {
                         "status": 200,
-                        "message": "Token verified successfully",
+                        "message": "Token verified successfully.",
                     },
                     status=200,
                 )
@@ -108,7 +108,7 @@ class UserViewSet(
             return Response(
                 {
                     "status": 404,
-                    "message": "Invalid token entered, please double check your email and enter the correct token. If you have not received a token, please check your spam folder or request a new token.",
+                    "message": "Invalid token entered, please try again.",
                 },
                 status=404,
             )

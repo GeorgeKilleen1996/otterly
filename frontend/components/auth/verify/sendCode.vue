@@ -46,7 +46,15 @@ const sendVerificationCode = async () => {
       }
     })
     .catch((error) => {
-      // TODO: Handle error here...
+      loading.value = false;
+      useToast().add({
+        title: "Unable to generate verification code",
+        color: "error",
+        description:
+          error.data.message ||
+          "Please try again later. If the problem persists, contact support.",
+        icon: "i-lucide-octagon-x",
+      });
     });
 };
 </script>

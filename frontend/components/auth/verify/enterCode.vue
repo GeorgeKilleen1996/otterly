@@ -18,9 +18,6 @@ const emit = defineEmits<{
 // Functions
 const checkVerificationCode = async () => {
   const verificationCode = code.value.join("");
-  console.log("Verification code entered:", verificationCode);
-  // TODO: Actually check the verification code entered with the expected one...
-  // For now, just simulate a successful verification
   loading.value = true;
   await $fetch<Res>(useRuntimeConfig().public.apiBase + "users/verify-token/", {
     method: "POST",
@@ -40,7 +37,15 @@ const checkVerificationCode = async () => {
       }
     })
     .catch((error) => {
-      // TODO: Handle error here...
+      loading.value = false;
+      useToast().add({
+        title: "Unable to verify",
+        color: "error",
+        description:
+          error.data.message || "Invalid verification code. Please try again.",
+        icon: "i-lucide-octagon-x",
+      });
+      code.value = [];
     });
 };
 </script>
