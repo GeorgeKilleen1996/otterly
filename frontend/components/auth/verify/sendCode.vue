@@ -24,7 +24,6 @@ const sendVerificationCode = async () => {
     color: "success",
     icon: "i-lucide-send",
   });
-  // TODO: Trigger verification code sending for the user...
   loading.value = true;
   await $fetch<Res>(
     useRuntimeConfig().public.apiBase + "users/generate-token/",

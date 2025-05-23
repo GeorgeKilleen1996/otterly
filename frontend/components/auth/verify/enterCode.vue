@@ -5,6 +5,8 @@ import type { Res } from "~/types/main";
 // Declared variables / objects
 const code = ref([] as string[]);
 const loading = ref(false);
+const timeout = ref(0);
+const counter = ref(0);
 const props = defineProps({
   step: {
     type: Number,
@@ -48,6 +50,22 @@ const checkVerificationCode = async () => {
       code.value = [];
     });
 };
+
+const resendVerificationCode = async () => {
+  startTimer();
+};
+
+const startTimer = () => {
+  counter.value++;
+  timeout.value = 1;
+  const interval = setInterval(() => {
+    if (timeout.value > 0) {
+      timeout.value--;
+    } else {
+      clearInterval(interval);
+    }
+  }, 1000);
+};
 </script>
 <template>
   <UCard variant="subtle" class="mt-4">
@@ -74,6 +92,34 @@ const checkVerificationCode = async () => {
           :disabled="code.length < 6"
           :loading="loading"
         />
+        <p>
+          <span class="text-sm text-center">
+            Need another code?
+            <UButton
+              label="Resend code"
+              color="primary"
+              variant="link"
+              size="lg"
+              class="cursor-pointer px-0"
+              :disabled="timeout > 0 || counter > 5"
+              @click="resendVerificationCode"
+            />
+          </span>
+        </p>
+        <p class="-mt-5">
+          <span
+            v-if="timeout > 0 && counter < 5"
+            class="text-xs text-neutral-500 text-center"
+          >
+            ({{ timeout }} seconds until resend)
+          </span>
+          <span
+            v-else-if="counter > 5"
+            class="text-xs text-neutral-500 text-center"
+          >
+            Resend limit reached. Please try again later.
+          </span>
+        </p>
       </UForm>
     </div>
   </UCard>
