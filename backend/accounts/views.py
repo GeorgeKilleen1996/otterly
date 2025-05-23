@@ -58,6 +58,7 @@ class UserViewSet(
     def generate_token(self, request):
         try:
             user = get_object_or_404(User, email=request.data["email"])
+            EmailVerificationToken.objects.filter(user=user).delete()
             token = EmailVerificationToken.objects.create(user=user)
             send_verification_email(user, token)
             return Response(
