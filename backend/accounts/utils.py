@@ -74,6 +74,11 @@ def verification_email_limiter(user):
         user=user, expires_at__gte=timezone.now()
     ).count()
 
-    print(f"Recent tokens count: {recent_tokens_count}")  # Debugging line
+    # Outdate token cleanup
+    outdated_tokens = EmailVerificationToken.objects.filter(
+        user=user,
+        expires_at__lt=timezone.now(),
+    )
+    outdated_tokens.delete()
 
     return recent_tokens_count < 3
