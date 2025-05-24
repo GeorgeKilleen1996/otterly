@@ -66,4 +66,4 @@ class EmailVerificationToken(models.Model):
         self.save(update_fields=["last_sent_at"])
 
     def __str__(self):
-        return f"Verification code for {self.user.email}"
+        return f"{self.token} - {self.user.email} - {self.is_valid() and 'Active' or 'Expired'}"
