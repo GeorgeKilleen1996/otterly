@@ -11,7 +11,7 @@ from rest_framework.response import Response
 # Email verification imports
 from .models import EmailVerificationToken
 from .serializers import VerifyEmailSerializer
-from .utils import send_verification_email
+from .utils import send_verification_email, verification_email_limiter
 
 User = get_user_model()
 
@@ -58,16 +58,25 @@ class UserViewSet(
     def generate_token(self, request):
         try:
             user = get_object_or_404(User, email=request.data["email"])
-            EmailVerificationToken.objects.filter(user=user).delete()
-            token = EmailVerificationToken.objects.create(user=user)
-            send_verification_email(user, token)
-            return Response(
-                {
-                    "status": 200,
-                    "message": "Token generated successfully",
-                },
-                status=200,
-            )
+            if not verification_email_limiter(user):
+                return Response(
+                    {
+                        "status": 429,
+                        "message": "Too many token generation requests. Please try again later.",
+                    },
+                    status=429,
+                )
+            else:
+                token = EmailVerificationToken.objects.create(user=user)
+                send_verification_email(user, token)
+                return Response(
+                    {
+                        "status": 200,
+                        "message": "Token generated successfully",
+                    },
+                    status=200,
+                )
+
         except Exception as e:
             return Response(
                 {
@@ -112,8 +121,6 @@ class UserViewSet(
                 },
                 status=404,
             )
-
-    # TODO: Resend verification email
 
 
 class AuthTokenView(views.APIView):

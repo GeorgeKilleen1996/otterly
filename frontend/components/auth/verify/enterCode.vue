@@ -53,11 +53,45 @@ const checkVerificationCode = async () => {
 
 const resendVerificationCode = async () => {
   startTimer();
+  await $fetch<Res>(
+    useRuntimeConfig().public.apiBase + "users/generate-token/",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        email: useAuthStore().getUser?.email,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Token ${useAuthStore().getToken}`,
+      },
+    }
+  )
+    .then((response) => {
+      if (response.status === 200) {
+        useToast().add({
+          title: "Verification code sent",
+          description:
+            "We have sent a new verification code to your email. Please check your inbox.",
+          color: "success",
+          icon: "i-lucide-send",
+        });
+      }
+    })
+    .catch((error) => {
+      useToast().add({
+        title: "Unable to resend verification code",
+        color: "error",
+        description:
+          error.data.message ||
+          "Please try again later. If the problem persists, contact support.",
+        icon: "i-lucide-octagon-x",
+      });
+    });
 };
 
 const startTimer = () => {
   counter.value++;
-  timeout.value = 1;
+  timeout.value = 60;
   const interval = setInterval(() => {
     if (timeout.value > 0) {
       timeout.value--;

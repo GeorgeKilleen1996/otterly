@@ -1,7 +1,9 @@
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from django.template.loader import render_to_string
-from django.utils.html import strip_tags
+from accounts.models import EmailVerificationToken
+from django.utils import timezone
+from datetime import timedelta
 from email.mime.image import MIMEImage
 
 import os
@@ -60,3 +62,18 @@ def send_verification_email(user, token):
 
     # Mark token as sent
     token.mark_as_sent()
+
+
+def verification_email_limiter(user):
+    """
+    Function to check whether the user has had 3 verification emails sent within the last 30 minutes.
+    Returns True if the user can send a new verification email, False otherwise.
+    """
+
+    recent_tokens_count = EmailVerificationToken.objects.filter(
+        user=user, expires_at__gte=timezone.now()
+    ).count()
+
+    print(f"Recent tokens count: {recent_tokens_count}")  # Debugging line
+
+    return recent_tokens_count < 3

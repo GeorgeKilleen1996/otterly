@@ -17,13 +17,6 @@ const emit = defineEmits<{
 
 // Functions
 const sendVerificationCode = async () => {
-  useToast().add({
-    title: "Verification code sent",
-    description:
-      "We have sent a verification code to your email. Please check your inbox.",
-    color: "success",
-    icon: "i-lucide-send",
-  });
   loading.value = true;
   await $fetch<Res>(
     useRuntimeConfig().public.apiBase + "users/generate-token/",
@@ -41,6 +34,13 @@ const sendVerificationCode = async () => {
     .then((response) => {
       if (response.status === 200) {
         loading.value = false;
+        useToast().add({
+          title: "Verification code sent",
+          description:
+            "We have sent a verification code to your email. Please check your inbox.",
+          color: "success",
+          icon: "i-lucide-send",
+        });
         emit("update:step", props.step + 1);
       }
     })
