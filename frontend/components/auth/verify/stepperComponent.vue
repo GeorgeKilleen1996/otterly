@@ -2,9 +2,9 @@
 // Imports
 import type { StepperItem } from "@nuxt/ui";
 
-// TODO: Add autofill for clicked link ?token=xxxxxx (query param)
-
 // Declared variables / objects
+const token = ref("");
+const active = ref(0);
 const items = [
   {
     slot: "verify" as const,
@@ -22,9 +22,20 @@ const items = [
     icon: "i-lucide-verified",
   },
 ] satisfies StepperItem[];
-const active = ref(0);
+// const active = ref(0);
 
 // Functions
+
+// Lifecycle hooks
+onMounted(() => {
+  const query = useRoute().query;
+  if (query.token) {
+    token.value = query.token as string;
+    active.value = 1; // Move to the enter-code step
+  } else {
+    active.value = 0; // Start at the verify step
+  }
+});
 </script>
 <template>
   <UStepper v-model="active" :items="items" class="w-full" disabled>
@@ -33,7 +44,11 @@ const active = ref(0);
     </template>
 
     <template #enter-code>
-      <AuthVerifyEnterCode :step="active" @update:step="active = $event" />
+      <AuthVerifyEnterCode
+        :step="active"
+        :token="token"
+        @update:step="active = $event"
+      />
     </template>
 
     <template #confirmation>

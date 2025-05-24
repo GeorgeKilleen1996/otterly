@@ -4,6 +4,7 @@ import type { Res } from "~/types/main";
 
 // Declared variables / objects
 const code = ref([] as string[]);
+
 const loading = ref(false);
 const timeout = ref(0);
 const counter = ref(0);
@@ -11,6 +12,11 @@ const props = defineProps({
   step: {
     type: Number,
     required: true,
+  },
+  token: {
+    type: String,
+    default: () => "",
+    required: false,
   },
 });
 const emit = defineEmits<{
@@ -100,6 +106,21 @@ const startTimer = () => {
     }
   }, 1000);
 };
+
+const onCodeChange = () => {
+  if (code.value.length > 5) {
+    checkVerificationCode();
+  }
+};
+
+// Lifecycle hooks
+onMounted(() => {
+  const token = props.token;
+
+  if (token || token !== "") {
+    code.value = token.split("");
+  }
+});
 </script>
 <template>
   <UCard variant="subtle" class="mt-4">
@@ -115,7 +136,14 @@ const startTimer = () => {
         class="flex flex-col p-4 w-full justify-center items-center space-y-4 mx-auto"
         @submit.prevent="checkVerificationCode"
       >
-        <UPinInput v-model="code" length="6" size="xl" otp required />
+        <UPinInput
+          v-model="code"
+          length="6"
+          size="xl"
+          otp
+          required
+          @change="onCodeChange"
+        />
         <UButton
           type="submit"
           label="Check verification code"
