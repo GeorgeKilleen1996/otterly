@@ -101,20 +101,20 @@ const startTimer = () => {
               variant="link"
               size="lg"
               class="cursor-pointer px-0"
-              :disabled="timeout > 0 || counter > 5"
+              :disabled="timeout > 0 || counter > 3"
               @click="resendVerificationCode"
             />
           </span>
         </p>
         <p class="-mt-5">
           <span
-            v-if="timeout > 0 && counter < 5"
+            v-if="timeout > 0 && counter < 3"
             class="text-xs text-neutral-500 text-center"
           >
             ({{ timeout }} seconds until resend)
           </span>
           <span
-            v-else-if="counter > 5"
+            v-else-if="counter > 3"
             class="text-xs text-neutral-500 text-center"
           >
             Resend limit reached. Please try again later.
