@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import * as v from "valibot";
-import type { FormError, FormSubmitEvent } from "@nuxt/ui";
 import type { Response } from "~/types/main";
 import type { LoginDetails, TokenDetails } from "~/types/auth";
 

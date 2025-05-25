@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto h-screen flex relative">
+  <div class="mx-auto h-screen flex relative overflow-hidden">
     <div
       class="hidden lg:flex flex-1 justify-center items-center bg-primary relative"
     >

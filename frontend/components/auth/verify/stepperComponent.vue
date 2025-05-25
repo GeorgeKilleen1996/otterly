@@ -22,7 +22,6 @@ const items = [
     icon: "i-lucide-verified",
   },
 ] satisfies StepperItem[];
-// const active = ref(0);
 
 // Functions
 
