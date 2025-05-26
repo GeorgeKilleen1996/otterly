@@ -40,7 +40,7 @@ class UserViewSet(
         return User.objects.filter(id=self.request.user.id)
 
     def get_permissions(self):
-        if self.action == "create":
+        if self.action == "create" or self.action == "check_email_availability":
             return [permissions.AllowAny()]
         return super().get_permissions()
 
@@ -48,6 +48,24 @@ class UserViewSet(
         instance: User = serializer.save()
 
         return instance
+
+    @action(detail=False, methods=["post"], url_path="available")
+    def check_email_availability(self, request):
+        email = request.data.get("email")
+        if not email:
+            return Response(
+                {"status": 400, "message": "Email is required."}, status=400
+            )
+
+        if User.objects.filter(email=email).exists():
+            return Response(
+                {"status": 409, "message": "Email is taken. Please try another."},
+                status=409,
+            )
+        else:
+            return Response(
+                {"status": 200, "message": "Email is available."}, status=200
+            )
 
     @action(detail=False, methods=["get"], url_path="me")
     def me(self, request):

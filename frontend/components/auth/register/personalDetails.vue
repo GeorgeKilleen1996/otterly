@@ -2,6 +2,7 @@
 // Imports
 import type { UserDetails } from "~/types/auth";
 import * as v from "valibot";
+import type { Res } from "~/types/main";
 
 // Declared variables / objects
 const props = defineProps({
@@ -28,10 +29,35 @@ const userDetails = ref<UserDetails>({
 });
 
 // Functions
-const handlePersonalDetailsSubmit = () => {
+const handlePersonalDetailsSubmit = async () => {
   loading.value = true;
-  // TODO: Check if the user already exists
-  emit("update:step", { step: props.step + 1, userDetails: userDetails.value });
+  await $fetch<Res>(useRuntimeConfig().public.apiBase + "users/available/", {
+    method: "POST",
+    body: JSON.stringify({
+      email: userDetails.value.email,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (response.status === 200) {
+        emit("update:step", {
+          step: props.step + 1,
+          userDetails: userDetails.value,
+        });
+      }
+    })
+    .catch((error) => {
+      useToast().add({
+        title: "Error with peronal details",
+        color: "error",
+        description:
+          error.data.message ||
+          "Please try again later. If the problem persists, contact support.",
+        icon: "i-lucide-octagon-x",
+      });
+    });
   loading.value = false;
 };
 </script>

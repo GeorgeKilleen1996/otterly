@@ -42,12 +42,6 @@ const handleStepUpdate = (payload: {
 }) => {
   Object.assign(userDetails.value, payload.userDetails);
   active.value = payload.step;
-  console.log(
-    "Updated step:",
-    active.value,
-    "User details:",
-    userDetails.value
-  );
 };
 // Lifecycle hooks
 </script>
