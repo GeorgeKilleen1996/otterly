@@ -1,34 +1,68 @@
 <script setup lang="ts">
 // Imports
 import type { StepperItem } from "@nuxt/ui";
+import type { UserDetails } from "~/types/auth";
 
 // Declared variables / objects
 const active = ref(0);
 const items = [
   {
     slot: "personal-details" as const,
-    title: "Personal Details",
+    title: "Personal",
     icon: "i-lucide-user-pen",
   },
   {
+    slot: "password" as const,
+    title: "Password",
+    icon: "i-lucide-key",
+  },
+  {
     slot: "workspace-details" as const,
-    title: "Workspace Details",
+    title: "Workspace",
     icon: "i-lucide-blocks",
   },
   {
     slot: "proceed-to-verify" as const,
-    title: "Verify Account",
+    title: "Verify",
     icon: "i-lucide-verified",
   },
 ] satisfies StepperItem[];
+const userDetails = ref<UserDetails>({
+  first_name: "",
+  last_name: "",
+  email: "",
+  password: "",
+  confirm_password: "",
+});
 
 // Functions
+const handleStepUpdate = (payload: {
+  step: number;
+  userDetails: UserDetails;
+}) => {
+  Object.assign(userDetails.value, payload.userDetails);
+  active.value = payload.step;
+  console.log(
+    "Updated step:",
+    active.value,
+    "User details:",
+    userDetails.value
+  );
+};
 // Lifecycle hooks
 </script>
 <template>
   <UStepper v-model="active" :items="items" class="w-full" disabled>
     <template #personal-details>
       <AuthRegisterPersonalDetails
+        :step="active"
+        :user-details="userDetails"
+        @update:step="handleStepUpdate"
+      />
+    </template>
+
+    <template #password>
+      <AuthRegisterPasswordDetails
         :step="active"
         @update:step="active = $event"
       />

@@ -20,3 +20,9 @@ export interface User {
   created_at: Date
   updated_at: Date
 }
+
+export interface UserDetails extends LoginDetails {
+  first_name: string
+  last_name: string
+  confirm_password: string
+}
