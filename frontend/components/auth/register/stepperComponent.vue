@@ -4,7 +4,7 @@ import type { StepperItem } from "@nuxt/ui";
 import type { UserDetails } from "~/types/auth";
 
 // Declared variables / objects
-const active = ref(0);
+const active = ref(1);
 const items = [
   {
     slot: "personal-details" as const,
@@ -58,7 +58,7 @@ const handleStepUpdate = (payload: {
     <template #password>
       <AuthRegisterPasswordDetails
         :step="active"
-        @update:step="active = $event"
+        @update:step="handleStepUpdate"
       />
     </template>
 
