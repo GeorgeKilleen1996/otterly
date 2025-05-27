@@ -4,7 +4,7 @@ import type { StepperItem } from "@nuxt/ui";
 import type { UserDetails } from "~/types/auth";
 
 // Declared variables / objects
-const active = ref(1);
+const active = ref(0);
 const items = [
   {
     slot: "personal-details" as const,
@@ -40,8 +40,21 @@ const handleStepUpdate = (payload: {
   step: number;
   userDetails: UserDetails;
 }) => {
-  Object.assign(userDetails.value, payload.userDetails);
+  if (active.value === 0) {
+    userDetails.value = payload.userDetails;
+  } else if (active.value === 1) {
+    userDetails.value.password = payload.userDetails.password;
+    userDetails.value.confirm_password = payload.userDetails.confirm_password;
+  }
   active.value = payload.step;
+};
+
+const createUser = (payload: { step: number; workspaceName: string }) => {
+  active.value = payload.step;
+  console.log("Creating user with details:", {
+    ...userDetails.value,
+    workspaceName: payload.workspaceName,
+  });
 };
 // Lifecycle hooks
 </script>
@@ -63,10 +76,7 @@ const handleStepUpdate = (payload: {
     </template>
 
     <template #workspace-details>
-      <AuthRegisterWorkspaceDetails
-        :step="active"
-        @update:step="active = $event"
-      />
+      <AuthRegisterWorkspaceDetails :step="active" @update:step="createUser" />
     </template>
 
     <template #proceed-to-verify>
