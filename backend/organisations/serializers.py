@@ -22,4 +22,5 @@ class OrganisationSerializer(serializers.ModelSerializer):
         rep["users"] = UserSerializer(
             instance.users.all(), many=True, context=self.context
         ).data
+        rep["owner"] = UserSerializer(instance.owner, context=self.context).data
         return rep

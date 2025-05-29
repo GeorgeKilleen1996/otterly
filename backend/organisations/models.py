@@ -7,6 +7,11 @@ User = get_user_model()
 # Orgnisation model
 class Organisation(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    owner = models.ForeignKey(
+        User,
+        related_name="owned_organisations",
+        on_delete=models.CASCADE,
+    )
     users = models.ManyToManyField(
         User,
         related_name="organisations",

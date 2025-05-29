@@ -8,9 +8,10 @@ from django.contrib.auth import login, load_backend, get_user_model
 from django.conf import settings
 from rest_framework.response import Response
 
+from organisations.serializers import OrganisationSerializer
+
 # Email verification imports
 from .models import EmailVerificationToken
-from .serializers import VerifyEmailSerializer
 from .utils import send_verification_email, verification_email_limiter
 
 User = get_user_model()
@@ -40,7 +41,7 @@ class UserViewSet(
         return User.objects.filter(id=self.request.user.id)
 
     def get_permissions(self):
-        if self.action == "create" or self.action == "check_email_availability":
+        if self.action == "create_user" or self.action == "check_email_availability":
             return [permissions.AllowAny()]
         return super().get_permissions()
 
@@ -48,6 +49,37 @@ class UserViewSet(
         instance: User = serializer.save()
 
         return instance
+
+    @action(detail=False, methods=["post"], url_path="create")
+    def create_user(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        organisationName = request.data.get("organisation_name", None)
+        if not organisationName:
+            return Response(
+                {"status": 400, "message": "Organisation name is required."}, status=400
+            )
+        else:
+            print("Organisation Name:", organisationName)
+            # Create the user without verification
+            user = self.perform_create(serializer)
+            user.is_verified = False
+            user.save()
+            # Create the organisation and add the user to it
+            organisation_serializer = OrganisationSerializer(
+                data={"name": organisationName, "owner": user.id, "users": [user.id]}
+            )
+            organisation_serializer.is_valid(raise_exception=True)
+            organisation_serializer.save()
+
+            return Response(
+                {
+                    "status": 201,
+                    "message": "User and organisation created successfully.",
+                    "data": serializer.data,
+                },
+                status=201,
+            )
 
     @action(detail=False, methods=["post"], url_path="available")
     def check_email_availability(self, request):
