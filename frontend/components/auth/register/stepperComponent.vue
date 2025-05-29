@@ -2,6 +2,7 @@
 // Imports
 import type { StepperItem } from "@nuxt/ui";
 import type { UserDetails } from "~/types/auth";
+import type { Res } from "~/types/main";
 
 // Declared variables / objects
 const active = ref(0);
@@ -49,12 +50,32 @@ const handleStepUpdate = (payload: {
   active.value = payload.step;
 };
 
-const createUser = (payload: { step: number; workspaceName: string }) => {
-  active.value = payload.step;
-  console.log("Creating user with details:", {
-    ...userDetails.value,
-    workspaceName: payload.workspaceName,
-  });
+const createUser = async (payload: { step: number; workspaceName: string }) => {
+  await $fetch<Res>(useRuntimeConfig().public.apiBase + "users/create/", {
+    method: "POST",
+    body: JSON.stringify({
+      ...userDetails.value,
+      workspace_name: payload.workspaceName,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (response.status === 200) {
+        active.value = payload.step;
+      }
+    })
+    .catch((error) => {
+      useToast().add({
+        title: "Error creating user",
+        color: "error",
+        description:
+          error.data.message ||
+          "Please try again later. If the problem persists, contact support.",
+        icon: "i-lucide-octagon-x",
+      });
+    });
 };
 // Lifecycle hooks
 </script>
