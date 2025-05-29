@@ -18,8 +18,8 @@ const items = [
     icon: "i-lucide-key",
   },
   {
-    slot: "workspace-details" as const,
-    title: "Workspace",
+    slot: "organisation-details" as const,
+    title: "Organisation",
     icon: "i-lucide-blocks",
   },
   {
@@ -50,12 +50,15 @@ const handleStepUpdate = (payload: {
   active.value = payload.step;
 };
 
-const createUser = async (payload: { step: number; workspaceName: string }) => {
+const createUser = async (payload: {
+  step: number;
+  organisationName: string;
+}) => {
   await $fetch<Res>(useRuntimeConfig().public.apiBase + "users/create/", {
     method: "POST",
     body: JSON.stringify({
       ...userDetails.value,
-      workspace_name: payload.workspaceName,
+      organisation_name: payload.organisationName,
     }),
     headers: {
       "Content-Type": "application/json",
@@ -96,8 +99,11 @@ const createUser = async (payload: { step: number; workspaceName: string }) => {
       />
     </template>
 
-    <template #workspace-details>
-      <AuthRegisterWorkspaceDetails :step="active" @update:step="createUser" />
+    <template #organisation-details>
+      <AuthRegisterOrganisationDetails
+        :step="active"
+        @update:step="createUser"
+      />
     </template>
 
     <template #proceed-to-verify>
