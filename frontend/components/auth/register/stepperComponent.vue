@@ -65,7 +65,7 @@ const createUser = async (payload: {
     },
   })
     .then((response) => {
-      if (response.status === 200) {
+      if (response.status === 201) {
         active.value = payload.step;
       }
     })
@@ -107,7 +107,10 @@ const createUser = async (payload: {
     </template>
 
     <template #proceed-to-verify>
-      <AuthRegisterProceedToVerify />
+      <AuthRegisterProceedToVerify
+        :email="userDetails.email"
+        :password="userDetails.password"
+      />
     </template>
   </UStepper>
 </template>
