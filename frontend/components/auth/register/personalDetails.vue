@@ -121,6 +121,20 @@ const handlePersonalDetailsSubmit = async () => {
           :loading="loading"
         />
       </UForm>
+      <div class="flex flex-col items-center justify-center px-4">
+        <USeparator class="mb-4" />
+        <p class="text-sm text-center">
+          Already have an account?
+          <UButton
+            label="Sign in"
+            color="primary"
+            variant="link"
+            size="lg"
+            class="cursor-pointer px-0"
+            to="/auth/login"
+          />
+        </p>
+      </div>
     </div>
   </UCard>
 </template>
