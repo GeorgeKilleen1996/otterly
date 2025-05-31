@@ -24,24 +24,39 @@ def attach_image(msg, image_path, content_id, filename):
         raise FileNotFoundError(f"Image not found at path: {image_path}")
 
 
-def send_verification_email(user, token):
+def send_verification_email(user, token, reset_password=False):
     """
     Send verification email to user with token.
     """
-    html_message = render_to_string(
-        "email/verification_email.html",
-        {
-            "first_name": user.first_name,
-            "email": user.email,
-            "verification_code": token.token,
-            "expiry_minutes": 30,
-            "verification_link": f"{settings.FRONTEND_URL}auth/verify?token={token.token}",
-            "site_name": settings.SITE_NAME,
-            "site_url": settings.SITE_URL,
-        },
-    )
 
-    subject = f"Verify your email address for {settings.SITE_NAME}"
+    if reset_password:
+        html_message = render_to_string(
+            "email/reset_password.html",
+            {
+                "first_name": user.first_name,
+                "email": user.email,
+                "verification_code": token.token,
+                "expiry_minutes": 30,
+                "verification_link": f"{settings.FRONTEND_URL}auth/forgotten-password?token={token.token}",
+                "site_name": settings.SITE_NAME,
+                "site_url": settings.SITE_URL,
+            },
+        )
+        subject = f"Password reset request for {settings.SITE_NAME}"
+    else:
+        html_message = render_to_string(
+            "email/verification_email.html",
+            {
+                "first_name": user.first_name,
+                "email": user.email,
+                "verification_code": token.token,
+                "expiry_minutes": 30,
+                "verification_link": f"{settings.FRONTEND_URL}auth/verify?token={token.token}",
+                "site_name": settings.SITE_NAME,
+                "site_url": settings.SITE_URL,
+            },
+        )
+        subject = f"Verify your email address for {settings.SITE_NAME}"
 
     # Create the email
     msg = EmailMultiAlternatives(subject, "", settings.DEFAULT_FROM_EMAIL, [user.email])

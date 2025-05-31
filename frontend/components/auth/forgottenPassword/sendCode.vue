@@ -1,0 +1,92 @@
+<script setup lang="ts">
+// Imports
+import type { Res } from "~/types/main";
+import * as v from "valibot";
+
+// Declared variables / objects
+const email = ref("");
+const loading = ref(false);
+const props = defineProps({
+  step: {
+    type: Number,
+    required: true,
+  },
+});
+const emit = defineEmits<{
+  (e: "update:step", step: number): void;
+}>();
+const schema = v.object({
+  email: v.pipe(v.string(), v.email("Invalid email address")),
+});
+
+// Functions
+const sendVerificationCode = async () => {
+  loading.value = true;
+  await $fetch<Res>(
+    useRuntimeConfig().public.apiBase + "auth/password-reset/",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        email: email.value,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  loading.value = false;
+  useToast().add({
+    title: "Verification code sent",
+    description:
+      "If an account is associated with this email, a verification code has been sent.",
+    color: "success",
+    icon: "i-lucide-send",
+  });
+  emit("update:step", props.step + 1);
+};
+</script>
+<template>
+  <UCard variant="subtle" class="mt-4">
+    <div class="flex flex-col items-center gap-4">
+      <div class="flex justify-center items-center pb-4 pt-2">
+        <img
+          src="~/assets/img/otterly-logo.png"
+          alt="Otterly Logo"
+          class="w-20 h-auto"
+        />
+      </div>
+      <h2>Verify your email</h2>
+      <p class="text-sm text-center -mt-2 mb-4">
+        Before you can reset your password, we need to verify your email
+        address.
+      </p>
+      <UForm
+        :schema="schema"
+        :state="email"
+        class="space-y-4 p-4 w-full"
+        @submit.prevent="sendVerificationCode"
+      >
+        <UFormField label="Email address" name="email" required>
+          <UInput
+            v-model="email"
+            icon="i-lucide-user-round"
+            placeholder="Enter your email"
+            size="xl"
+            class="w-full"
+          />
+        </UFormField>
+        <UButton
+          type="submit"
+          label="Send verification code"
+          color="primary"
+          size="xl"
+          block
+          class="cursor-pointer"
+          :disabled="!email"
+          :loading="loading"
+          @click="sendVerificationCode"
+        />
+      </UForm>
+    </div>
+  </UCard>
+</template>

@@ -204,6 +204,31 @@ class AuthTokenView(views.APIView):
         )
 
 
+class PasswordResetView(viewsets.GenericViewSet):
+    permission_classes = [permissions.AllowAny]
+
+    @action(detail=False, methods=["post"], url_path="password-reset")
+    def password_reset(self, request):
+        user = get_object_or_404(User, email=request.data["email"])
+        if not verification_email_limiter(user):
+            return Response(
+                {
+                    "status": 429,
+                    "message": "Too many password reset requests. Please try again later.",
+                },
+                status=429,
+            )
+        token = EmailVerificationToken.objects.create(user=user)
+        send_verification_email(user, token, reset_password=True)
+        return Response(
+            {
+                "status": 200,
+                "message": "Password reset email sent successfully.",
+            },
+            status=200,
+        )
+
+
 class AdminLoginView(View):
     def get(self, request):
         token_str = request.GET.get("token", None)
