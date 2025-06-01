@@ -4,7 +4,6 @@ import type { Res } from "~/types/main";
 import * as v from "valibot";
 
 // Declared variables / objects
-const email = ref("");
 const loading = ref(false);
 const props = defineProps({
   step: {
@@ -15,6 +14,10 @@ const props = defineProps({
 const emit = defineEmits<{
   (e: "update:step", step: number): void;
 }>();
+
+const state = reactive({
+  email: "",
+});
 const schema = v.object({
   email: v.pipe(v.string(), v.email("Invalid email address")),
 });
@@ -27,7 +30,7 @@ const sendVerificationCode = async () => {
     {
       method: "POST",
       body: JSON.stringify({
-        email: email.value,
+        email: state.email,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -62,13 +65,13 @@ const sendVerificationCode = async () => {
       </p>
       <UForm
         :schema="schema"
-        :state="email"
+        :state="state"
         class="space-y-4 p-4 w-full"
-        @submit.prevent="sendVerificationCode"
+        @submit="sendVerificationCode"
       >
         <UFormField label="Email address" name="email" required>
           <UInput
-            v-model="email"
+            v-model="state.email"
             icon="i-lucide-user-round"
             placeholder="Enter your email"
             size="xl"
@@ -82,9 +85,7 @@ const sendVerificationCode = async () => {
           size="xl"
           block
           class="cursor-pointer"
-          :disabled="!email"
           :loading="loading"
-          @click="sendVerificationCode"
         />
       </UForm>
     </div>
