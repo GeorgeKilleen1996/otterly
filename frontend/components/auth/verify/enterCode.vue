@@ -134,7 +134,6 @@ onMounted(() => {
       <UForm
         :state="code"
         class="flex flex-col p-4 w-full justify-center items-center space-y-4 mx-auto"
-        @submit.prevent="checkVerificationCode"
       >
         <UPinInput
           v-model="code"
@@ -142,17 +141,7 @@ onMounted(() => {
           size="xl"
           otp
           required
-          @change="onCodeChange"
-        />
-        <UButton
-          type="submit"
-          label="Check verification code"
-          color="primary"
-          size="xl"
-          block
-          class="cursor-pointer"
-          :disabled="code.length < 6"
-          :loading="loading"
+          @input="onCodeChange"
         />
         <p>
           <span class="text-sm text-center">

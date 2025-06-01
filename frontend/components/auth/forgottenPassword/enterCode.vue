@@ -59,6 +59,7 @@ const checkVerificationCode = async () => {
 };
 
 const onCodeChange = () => {
+  console.log("Code changed:", code.value.join(""));
   if (code.value.length > 5) {
     checkVerificationCode();
   }
@@ -92,7 +93,7 @@ onMounted(() => {
           size="xl"
           otp
           required
-          @change="onCodeChange"
+          @input="onCodeChange"
         />
       </UForm>
     </div>
