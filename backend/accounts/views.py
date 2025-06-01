@@ -245,6 +245,9 @@ class PasswordResetView(viewsets.GenericViewSet):
                     status=400,
                 )
             else:
+                user.is_verified = True
+                user.save()
+                token.delete()
                 return Response(
                     {
                         "status": 200,
