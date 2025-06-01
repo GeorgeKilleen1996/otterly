@@ -4,6 +4,7 @@ import type { StepperItem } from "@nuxt/ui";
 
 // Declared variables / objects
 const active = ref(0);
+const email = ref("");
 const items = [
   {
     slot: "verify" as const,
@@ -32,12 +33,14 @@ const items = [
       <AuthForgottenPasswordSendCode
         :step="active"
         @update:step="active = $event"
+        @update:email="email = $event"
       />
     </template>
 
     <template #enter-code>
       <AuthForgottenPasswordEnterCode
         :step="active"
+        :email="email"
         @update:step="active = $event"
       />
     </template>

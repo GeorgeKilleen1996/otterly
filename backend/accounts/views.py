@@ -228,6 +228,39 @@ class PasswordResetView(viewsets.GenericViewSet):
             status=200,
         )
 
+    @action(detail=False, methods=["post"], url_path="verify-token")
+    def verify_token(self, request):
+        user = get_object_or_404(User, email=request.data["email"])
+        token = EmailVerificationToken.objects.filter(
+            token=request.data.get("token")
+        ).first()
+
+        if token and token.user == user:
+            if not token.is_valid():
+                return Response(
+                    {
+                        "status": 400,
+                        "message": "Token has expired, please request a new token.",
+                    },
+                    status=400,
+                )
+            else:
+                return Response(
+                    {
+                        "status": 200,
+                        "message": "Token verified successfully.",
+                    },
+                    status=200,
+                )
+        else:
+            return Response(
+                {
+                    "status": 404,
+                    "message": "Invalid token entered, please try again.",
+                },
+                status=404,
+            )
+
 
 class AdminLoginView(View):
     def get(self, request):

@@ -13,6 +13,7 @@ const props = defineProps({
 });
 const emit = defineEmits<{
   (e: "update:step", step: number): void;
+  (e: "update:email", email: string): void;
 }>();
 
 const state = reactive({
@@ -46,6 +47,7 @@ const sendVerificationCode = async () => {
     icon: "i-lucide-send",
   });
   emit("update:step", props.step + 1);
+  emit("update:email", state.email);
 };
 </script>
 <template>
